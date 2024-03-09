@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetchChannels();
     //fetch channel ata
     function fetchChannels() {
         fetch('temp') //Awaiting Back-End creation for channels Data
@@ -49,5 +48,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-//export for testing
-export { fetchChannels, displayChannels, fetchUsers, displayUsers, fetchServers, displayServers };
+
+
