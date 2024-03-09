@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings Page</title>
+    <link rel="stylesheet" href="accountCSS/account_settings.css"> 
+</head>
+<body>
+    <div class="container">
+        <h1>Account Settings</h1>
+        <h3>Change your account settings here</h3>
+        <div class="button-container">
+            <button class="button" id="change-password" onclick="window.location.href='change_password.html'">Change Password</button>
+            
+            <button onclick="openForm()">Change Username</button>
+            <div class="form-popup" id="usernameForm">
+                <!-- Needs PHP file and POST method -->
+                <form action="change_username.php" class="form-container">
+                    <h1>Change Username</h1>
+                    <label for="new-username"><b>New Username</b></label>
+                    <input type="text" placeholder="Enter New Username" name="new-username" required>
+                    <button type="submit" class="btn submit">Change</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                </form>
+            </div>
+            <!-- Placeholder for JS file -->
+            <script src="script.js"></script>
+
+            <button onclick="openForm()">Change Email</button>
+            <div class="form-popup" id="usernameForm">
+                <!-- Needs PHP file and POST method -->
+                <form action="change_username.php" class="form-container">
+                    <h1>Change Email</h1>
+                    <label for="new-username"><b>New Email</b></label>
+                    <input type="text" placeholder="Enter New Email" name="new-email" required>
+                    <button type="submit" class="btn submit">Change</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                </form>
+            </div>
+            <!-- Placeholder for JS file -->
+            <script src="script.js"></script>
+
+            <button onclick="openForm()">Change Profile Picture</button>
+            <div class="form-popup" id="myForm">
+                <!-- Needs PHP file and POST method -->
+                <form action="/submit-profile-picture" class="form-container" enctype="multipart/form-data">
+                    <h2>Upload Profile Picture</h2>
+                    <label for="profile-picture"><b>Choose a file:</b></label>
+                    <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
+                    <button type="submit" class="btn">Upload</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                </form>
+            </div>
+            <!-- Placeholder for JS file -->
+            <script src="script.js"></script>
+
+        </div>
+</body>
