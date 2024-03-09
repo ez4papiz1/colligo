@@ -1,5 +1,5 @@
 // Import the functions for testing
-import { fetchChannels, displayChannels, fetchUsers, displayUsers, fetchServers, displayServers } from './pathToYourJSFile';
+import { fetchChannels, displayChannels, fetchUsers, displayUsers, fetchServers, displayServers } from './ServerPage';
 
   test('fetchChannels calls fetch and displayChannels with the correct URL', async () => {
     await fetchChannels();
