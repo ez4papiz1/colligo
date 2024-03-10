@@ -1,0 +1,56 @@
+
+body, html {
+    height: 100%;
+    margin: 0;
+    background-color: #7785cc;
+}
+#serverList {
+    background-color: 	#424549;
+    color: white;
+    border-right: lightgray 1px solid;
+}
+#channelList {
+    background-color: 	#424549;
+    color: white;
+    border-right: lightgray 1px solid;
+}
+#messageList {
+    background-color:#7785cc;
+    overflow-y: auto;
+}
+#userList {
+    background-color: 	#424549;
+    color: white;
+    border-left: lightgray 1px solid;
+}
+.list-group-item {
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+.list-group-item:hover {
+    background-color: #4f545c;
+}
+
+#messageForm input[type="text"] {
+    background-color: #424549;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#messageForm button {
+    background-color: #424549;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#messageForm{
+    width: calc(100% - 90px);
+}
+.mt-3{
+    width: 68%;
+    position: fixed;
+    bottom: 0;
+    left: 25%;
+    padding: 10px;
+}

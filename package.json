@@ -1,0 +1,26 @@
+{
+  "name": "colligo",
+  "version": "1.0.0",
+  "description": "<br> Designed as a webapp for modern browsers, Colligo offers a more connected user communication service than seen previous. <br> <br> Our program’s features include: <br> \tReal-time Messaging: Enable users to send and receive text messages in real-time.  <br> \tVoice Calling: Allow users to make voice calls to other users or groups.  <br> \tVideo Calling: Enable users to conduct video calls with other users or groups.  <br> \tUser Authentication: Provide mechanisms for user registration, login, and authentication.  <br> \tContact Management: Allow users to manage their contacts and create groups.  <br> \tPreference-based servers: Show users different servers based on their preferences.  <br> \tCustomization: Allow users to customize their profile and other settings. <br> <br> For more information regarding System Requirements, Please access the Colligo Requirement Documentation",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ez4papiz1/colligo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ez4papiz1/colligo/issues"
+  },
+  "homepage": "https://github.com/ez4papiz1/colligo#readme",
+  "dependencies": {
+    "express": "^4.18.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
