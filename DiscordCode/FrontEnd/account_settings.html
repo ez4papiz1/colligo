@@ -15,8 +15,7 @@
             
             <button onclick="openForm()">Change Username</button>
             <div class="form-popup" id="usernameForm">
-                <!-- Needs PHP file and POST method -->
-                <form action="change_username.php" class="form-container">
+                <form action="/change_username" class="form-container" method = "POST">
                     <h1>Change Username</h1>
                     <label for="new-username"><b>New Username</b></label>
                     <input type="text" placeholder="Enter New Username" name="new-username" required>
@@ -24,13 +23,9 @@
                     <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
                 </form>
             </div>
-            <!-- Placeholder for JS file -->
-            <script src="script.js"></script>
-
             <button onclick="openForm()">Change Email</button>
             <div class="form-popup" id="usernameForm">
-                <!-- Needs PHP file and POST method -->
-                <form action="change_username.php" class="form-container">
+                <form action="/change_email" class="form-container" method ="POST">
                     <h1>Change Email</h1>
                     <label for="new-username"><b>New Email</b></label>
                     <input type="text" placeholder="Enter New Email" name="new-email" required>
@@ -38,13 +33,9 @@
                     <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
                 </form>
             </div>
-            <!-- Placeholder for JS file -->
-            <script src="script.js"></script>
-
             <button onclick="openForm()">Change Profile Picture</button>
             <div class="form-popup" id="myForm">
-                <!-- Needs PHP file and POST method -->
-                <form action="/submit-profile-picture" class="form-container" enctype="multipart/form-data">
+                <form action="/submit-profile-picture" class="form-container" enctype="multipart/form-data" method ="POST">
                     <h2>Upload Profile Picture</h2>
                     <label for="profile-picture"><b>Choose a file:</b></label>
                     <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
@@ -52,8 +43,7 @@
                     <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
                 </form>
             </div>
-            <!-- Placeholder for JS file -->
-            <script src="script.js"></script>
-
+              <!-- Placeholder for JS file -->
+              <script src="script.js"></script>
         </div>
 </body>
