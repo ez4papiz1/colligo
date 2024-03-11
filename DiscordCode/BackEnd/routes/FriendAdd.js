@@ -7,26 +7,36 @@ const db = mongoose.connection;
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/addFriend', async (req, res) => {
     try {
-        const uid = req.body.uid;
-        const friendname = req.body.friendname;
+        const uid = req.body.uid; 
+        const friendUsername = req.body.friendname; 
 
-        const friend = await User.findOne({name: friendname});
-        if (!friend){
-            return res.status(404).send('user not found');
-        }
-        
-        if (User.friends.includes(friend.name)){
-            return res.status(400).send('already friends');
+        // Retrieve the user document from the database
+        const user = await User.findById(uid);
+        if (!user) {
+            return res.status(404).send('User not found');
         }
 
-        User.friendlist.push(friend.name);
-        await User.save();     
-        res.status(200).send('friend added successfully');
+        // Retrieve the friend's user document by username
+        const friend = await User.findOne({ username: friendUsername });
+        if (!friend) {
+            return res.status(404).send('Friend not found');
+        }
+
+        // Check if the friend is already in the user's friendlist
+        if (user.friendlist.includes(friend.uid)) {
+            return res.status(400).send('Already friends');
+        }
+
+        // Add the friend's ID to the user's friendlist and save the update
+        user.friendlist.push(friend.uid);
+        await user.save();
+
+        res.status(200).send('Friend added successfully');
     } catch (err) {
         console.error(err);
-        res.status(500).send('error');
+        res.status(500).send('Error adding friend');
     }
 });
 
