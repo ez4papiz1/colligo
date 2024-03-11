@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Friend</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/FriendAdd.css">
+</head>
+
+<nav>
+    <div class="logo">
+        <a href="home.html"><img src="images/logo.png" alt="Colligo Logo"></a>
+    </div>
+    <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+    </ul>
+</nav>
+
+<body>
+    <h2>Add a New Friend</h2>
+    <form id="addFriendForm" action="/addFriend" method="POST">
+
+        <!-- Friend's Username Input -->
+        <div>
+            <label for="friendname">Friend's Username:</label>
+            <input type="text" id="friendname" name="friendname" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Add Friend</button>
+    </form>
+
+    <script>
+        document.getElementById('addFriendForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
+            const formData = {
+                uid: document.getElementById('uid').value,
+                friendname: document.getElementById('friendname').value
+            };
+
+            // Perform the fetch request to the backend
+            fetch('/addFriend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
