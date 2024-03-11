@@ -13,39 +13,83 @@
         <div class="button-container">
             <button class="button" id="change-password" onclick="window.location.href='change_password.html'">Change Password</button>
             
-            <button onclick="openForm()">Change Username</button>
-            <h2 class = "username">Current Username: </h2>
-            <div class="form-popup" id="usernameForm">
-                <form action="/change_username" class="form-container" method = "POST">
-                    <h1>Change Username</h1>
-                    <label for="new-username"><b>New Username</b></label>
-                    <input type="text" placeholder="Enter New Username" name="new-username" required>
-                    <button type="submit" class="btn submit">Change</button>
-                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-                </form>
-            </div>
-            <h2 class = "email">Current Email: </h2>
-            <button onclick="openForm()">Change Email</button>
-            <div class="form-popup" id="usernameForm">
-                <form action="/change_email" class="form-container" method ="POST">
-                    <h1>Change Email</h1>
-                    <label for="new-username"><b>New Email</b></label>
-                    <input type="text" placeholder="Enter New Email" name="new-email" required>
-                    <button type="submit" class="btn submit">Change</button>
-                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-                </form>
-            </div>
-            <button onclick="openForm()">Change Profile Picture</button>
-            <div class="form-popup" id="myForm">
-                <form action="/submit-profile-picture" class="form-container" enctype="multipart/form-data" method ="POST">
-                    <h2>Upload Profile Picture</h2>
-                    <label for="profile-picture"><b>Choose a file:</b></label>
-                    <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
-                    <button type="submit" class="btn">Upload</button>
-                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-                </form>
-            </div>
-              <!-- Placeholder for JS file -->
-              <script src="script.js"></script>
+            <button id="userBtn">Change Username</button>
+            <div id="userModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <form action="/change_username" method="POST">
+                        <!-- Needs to display current username -->
+                        <h2>Your current username is </h2> 
+                        <div>
+                            <label for="new-username"></label>
+                            <input type="username" placeholder="Enter New Username" name="new-username" required>
+                        </div>
+                        <div class = btn-container>
+                            <button type="submit" class="btn submit">Change</button>
+                            <button type="cancel" class="btn cancel">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div> 
+
+            <button id="emailBtn">Change Email</button>
+            <div id="emailModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <form action="/change_email" method="POST">
+                        <!-- Needs to display current email -->
+                        <h2>Your current username is </h2> 
+                        <div>
+                            <label for="new-email"></label>
+                            <input type="email" placeholder="Enter New Email" name="new-email" required>
+                        </div>
+                        <div class = btn-container>
+                            <button type="submit" class="btn submit">Change</button>
+                            <button type="cancel" class="btn cancel">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div> 
+
+            <!-- Javascript for buttons that have popups -->
+            <!-- Couldn't figure out how to fix buttons not closing -->
+            <script>
+                var userModal = document.getElementById("userModal");
+                var userBtn = document.getElementById("userBtn");
+                var emailModal = document.getElementById("emailModal");
+                var emailBtn = document.getElementById("emailBtn");
+                var span = document.getElementsByClassName("close");
+
+                //Username button functions
+                userBtn.onclick = function() {
+                  userModal.style.display = "block";
+                }
+
+                span.onclick = function() {
+                  userModal.style.display = "none";
+                }
+                
+                window.onclick = function(event) {
+                  if (event.target == userModal) {
+                    userModal.style.display = "none";
+                  }
+                }
+                
+                //Email button functions
+                emailBtn.onclick = function() {
+                  emailModal.style.display = "block";
+                }
+
+                span.onclick = function() {
+                  emailModal.style.display = "none";
+                }
+
+                window.onclick = function(event) {
+                  if (event.target == emailModal) {
+                    emailModal.style.display = "none";
+                  }
+                }
+            </script>
         </div>
+    </div>
 </body>
