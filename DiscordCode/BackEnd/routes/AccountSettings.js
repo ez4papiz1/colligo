@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const user = require('./models/User');
+const User = require('./models/User');
 
 mongoose.connect('mongodb://localhost:27017/colligo');
 const db = mongoose.connection;
@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
             email: req.body.email,
             password: req.body.password,
         };
-        await user.findByIdAndUpdate(uid, updated);
+        await User.findByIdAndUpdate(uid, updated);
         res.status(200).send('success');
     } catch (err) {
         console.error(err);
