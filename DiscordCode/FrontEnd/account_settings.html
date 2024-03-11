@@ -14,6 +14,7 @@
             <button class="button" id="change-password" onclick="window.location.href='change_password.html'">Change Password</button>
             
             <button onclick="openForm()">Change Username</button>
+            <h2 class = "username">Current Username: </h2>
             <div class="form-popup" id="usernameForm">
                 <form action="/change_username" class="form-container" method = "POST">
                     <h1>Change Username</h1>
@@ -23,6 +24,7 @@
                     <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
                 </form>
             </div>
+            <h2 class = "email">Current Email: </h2>
             <button onclick="openForm()">Change Email</button>
             <div class="form-popup" id="usernameForm">
                 <form action="/change_email" class="form-container" method ="POST">
