@@ -1,4 +1,3 @@
-const { default: test } = require("node:test");
 
 /** @jest-environment jsdom */
 function DisplayUserInfo(users) {

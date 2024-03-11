@@ -1,4 +1,3 @@
-const e = require("express");
 
 document.addEventListener('DOMContentLoaded', function() {
     function fetchUserInfo() {
