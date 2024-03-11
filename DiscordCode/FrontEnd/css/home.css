@@ -1,21 +1,26 @@
-body, html {
+body {
+    background-color: #f4f6f8;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
 .container {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 350px;
 }
 
 .button-container {
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 .button {
     display: inline-block;
-    background-color: #007bff;
+    background-color: #7e57c2;
     color: white;
     padding: 10px 20px;
     text-decoration: none;
@@ -24,36 +29,55 @@ body, html {
 }
 
 .button:hover {
-    background-color: #0056b3;
+    background-color: #39318e;
 }
 
 nav {
+    background: linear-gradient(to right, #ffffff 0%, #ffffff 50%, #7e57c2 100%);
+    color: #333;
+    width: 100%;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 10px;
 }
 
 .logo img {
-    height: 50px; 
+    height: 60px; 
+    transition: transform 0.3s ease;
+}
+
+.logo {
+    flex-grow: 1; 
+}
+
+.logo img:hover {
+    transform: scale(1.1);
 }
 
 nav ul {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
     display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0; 
 }
 
 nav ul li {
-    margin: 0 15px;
+    margin-left: 25px;
 }
 
 nav ul li a {
     text-decoration: none;
-    color: #007bff;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
 }
 
 nav ul li a:hover {
-    color: #0056b3;
+    color: #7e57c2;
 }
