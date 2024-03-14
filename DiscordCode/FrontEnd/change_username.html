@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Password</title>
-    <link rel="stylesheet" href="css/change_password.css"> 
+    <title>Change Username</title>
+    <link rel="stylesheet" href="css/change_username.css"> 
 </head>
 <body>
     <div class="button-container">
@@ -14,18 +14,14 @@
         <button class="btn" id="change-email" onclick="window.location.href='change_email.html'">Change Email</button>
     </div>
     <div class="container">
-        <form action="/change_password" method="POST">
+        <form action="/change_username" method="POST">
             <div>
-                <label for="current-password"><b>Current Password</b></label>
-                <input type="password" placeholder="Enter Current Password" name="current-password" required>
+                <label for="new-username"><b>New Username</b></label>
+                <input type="username" placeholder="Enter New Username" name="new-username" required>
             </div>
             <div>
-                <label for="new-password"><b>New Password</b></label>
-                <input type="password" placeholder="Enter New Password" name="new-password" required>
-            </div>
-            <div>
-                <label for="confirm-password"><b>Confirm New Password</b></label>
-                <input type="password" placeholder="Confirm New Password" name="confirm-password" required>
+                <label for="confirm-username"><b>Confirm New Username</b></label>
+                <input type="username" placeholder="Confirm New Username" name="confirm-username" required>
             </div>
             <div class = btn-container>
                 <button type="submit" class="btn_submit">Change</button>
