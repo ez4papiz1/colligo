@@ -1,0 +1,109 @@
+ /* Main Page */
+ body {
+    background-color: #7785cc;
+    margin: 0;
+    padding: 1%;
+    font-family: Arial, sans-serif;
+ }
+
+ #userBtn {
+    background-color: #ffffff;
+    color: black;
+    padding: 10px 20px;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 10px;
+ }
+
+ 
+ #emailBtn {
+    background-color: #ffffff;
+    color: black;
+    padding: 10px 20px;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  
+ .passBtn {
+    background-color: #ffffff;
+    color: black;
+    padding: 10px 20px;
+    border: 1px solid #000000;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+ 
+ /* The Modal (background) */
+ .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: white;
+    color: black;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 3px solid #888;
+    width: 40%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  } 
+
+  .btn-container {
+    padding-top: 1%;
+    text-align: left;
+}
+
+.btn_submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.btn_cancel {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn_submit:hover,
+.btn_cancel:hover {
+    opacity: 0.8;
+}
+
