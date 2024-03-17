@@ -47,6 +47,23 @@ document.addEventListener('DOMContentLoaded', function() {
             serverList.appendChild(li);
         });
     }
+
+    //Messaging 
+    socket.on('chat message', function(msg){
+        // Append each message to the message list
+        var item = document.createElement('li');
+        item.textContent = msg;
+        document.getElementById('messageList').appendChild(item);
+    });
+
+    // Send message on form submit
+    document.getElementById('messageForm').addEventListener('submit', function(e){
+        e.preventDefault(); // Prevents form from submitting traditionally
+        var messageInput = document.getElementById('messageInput');
+        var message = messageInput.value;
+        socket.emit('chat message', message); // Emit the message to the server
+        messageInput.value = ''; // Clear the input
+    });
 });
 
 
