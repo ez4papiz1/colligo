@@ -16,10 +16,10 @@ router.post('/', async (req, res) => {
             password: req.body.password,
         };
         await User.findByIdAndUpdate(uid, updated);
-        res.status(200).send('success');
+        res.status(200).json({message: 'name updated', sname: User.name});
     } catch (err) {
         console.error(err);
-        res.status(500).send('error');
+        res.status(500).json({error: 'error'});
     }
 });
 
