@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 
-mongoose.connect('mongodb://localhost:27017/colligo');
+mongoose.createConnection('mongodb://localhost:27017/colligo');
 const db = mongoose.connection;
 
 const router = express.Router();
@@ -33,10 +33,11 @@ router.post('/addFriend', async (req, res) => {
         user.friendlist.push(friend.uid);
         await user.save();
 
-        res.status(200).send('Friend added successfully');
+        res.status(200).json({message: 'friend added', fname: friend.name});
+
     } catch (err) {
         console.error(err);
-        res.status(500).send('Error adding friend');
+        res.status(500).json({error: 'error'});
     }
 });
 
