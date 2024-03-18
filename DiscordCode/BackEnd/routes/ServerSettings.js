@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Server = require('./models/Server');
+const Server = require('./models/Server.model');
 
-mongoose.connect('mongodb://localhost:27017/colligo');
+mongoose.createConnection('mongodb://localhost:27017/colligo');
 const db = mongoose.connection;
 
 router.post('/upName', async (req, res) => {
@@ -12,10 +12,10 @@ router.post('/upName', async (req, res) => {
         const server = await Server.findById(sid);
         server.name = nname;
         await server.save();
-        res.status(200).send('name updated');
+        res.status(200).json({message: 'name updated', sname: server.name});
     } catch (err) {
         console.error(err);
-        res.status(500).send('error');
+        res.status(500).json({error: 'error'});
     }
 });
 
@@ -25,10 +25,10 @@ router.post('/updDesc', async (req, res) => {
         const server = await Server.findById(sid);
         server.description = ndesc;
         await server.save();
-        res.status(200).send('description updated');
+        res.status(200).json({message: 'description updated', sdesc: server.description});
     } catch (err) {
         console.error(err);
-        res.status(500).send('error');
+        res.status(500).json({error: 'error'});
     }
 });
 
@@ -40,13 +40,13 @@ router.post('/banUser', async (req, res) => {
         if (index !== -1) {
             server.users.splice(index, 1);
             await server.save();
-            res.status(200).send('user banned');
+            res.status(200).json({message: 'User banned', serverUsers: server.users});
         } else {
-            res.status(404).send('user not found');
+            res.status(404).json({error: 'user not found'});
         }
     } catch (err) {
         console.error(err);
-        res.status(500).send('error');
+        res.status(500).json({error: 'error'});
     }
 });
 
