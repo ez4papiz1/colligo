@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/colligo');
+mongoose.createConnection('mongodb://localhost:27017/colligo');
 const db = mongoose.connection;
 
 const router = express.Router();
@@ -16,9 +16,10 @@ router.post('/', async (req, res) => {
         });
         await newUser.save();
         res.status(201).send('success');
+        res.status(201).json({message: 'name updated successfully', nname: User.name});
     } catch (err) {
         console.error(err);
-        res.status(500).send('error');
+        res.status(500).json({error: 'error'});
     }
 });
 
