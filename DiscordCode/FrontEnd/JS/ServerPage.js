@@ -1,69 +1,48 @@
+
 document.addEventListener('DOMContentLoaded', function() {
-    //fetch channel ata
-    function fetchChannels() {
-        fetch('temp') //Awaiting Back-End creation for channels Data
-            .then(response => response.json())
-            .then(data => displayChannels(data)); //Temp data until back-end is created
-    }
-    //display channel data
-    function displayChannels(channels) {
-        const channelList = document.getElementById('channelList');
-        channels.forEach(channel => {
-            const li = document.createElement('li');
-            li.className = 'list-group-item';
-            li.textContent = channel.name;
-            channelList.appendChild(li);
-        });
-    }
-    //fetch user data
-    function fetchUsers() {
-        fetch('temp') //Awaiting Back-End creation for users Data
-            .then(response => response.json())
-            .then(data => displayUsers(data)); //Temp data until back-end is created
-    }
-    //display user data
-    function displayUsers(users) {
-        const userList = document.getElementById('userList');
-        users.forEach(user => {
-            const li = document.createElement('li');
-            li.className = 'list-group-item';
-            li.textContent = user.name;
-            userList.appendChild(li);
-        });
-    }
-    //fetch server datta
-    function fetchServers(){
-        fetch('temp') //Awaiting Back-End creation for server Data
-            .then(response => response.json())
-            .then(data => displayServers(data)); //Temp data until back-end is created
-    }
-    //display channel data
-    function displayServers(servers){
-        const serverList = document.getElementById('serverList');
-        servers.forEach(server => {
-            const li = document.createElement('li');
-            li.className = 'list-group-item';
-            li.textContent = server.name;
-            serverList.appendChild(li);
-        });
-    }
-
-    //Messaging 
-    socket.on('chat message', function(msg){
-        // Append each message to the message list
-        var item = document.createElement('li');
-        item.textContent = msg;
-        document.getElementById('messageList').appendChild(item);
+        function fetchData() {
+            console.log('Fetching data...');
+            fetch('http://localhost:3000/fetchServerData') // Use the correct endpoint for server data
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        const serverData = data[0]; // Taking the first server object from the array
+                        displayChannels(serverData.channels);
+                        displayMembers(serverData.members);
+                        displayMessages(serverData.messages);
+                    }
+                });
+                
+        }
+        function displayChannels(channels) {
+            const channelList = document.getElementById('channelList');
+            channelList.innerHTML = '';
+            for (let i = 0; i < channels.length; i++) {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.textContent = channels[i];
+                channelList.appendChild(li);
+            }
+        }
+        function displayMembers(members) {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
+            for (let i = 0; i < members.length; i++) {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.textContent = members[i];
+                userList.appendChild(li);
+            }
+        }
+        function displayMessages(messages) {
+            for (let i = 0; i < messages.length; i++) {
+                const messageList = document.getElementById('messageList');
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerText = messages[i];
+                messageList.appendChild(messageElement);
+            }
+        }
+        fetchData();
     });
-
-    // Send message on form submit
-    document.getElementById('messageForm').addEventListener('submit', function(e){
-        e.preventDefault(); // Prevents form from submitting traditionally
-        var messageInput = document.getElementById('messageInput');
-        var message = messageInput.value;
-        socket.emit('chat message', message); // Emit the message to the server
-        messageInput.value = ''; // Clear the input
-    });
-});
-
 

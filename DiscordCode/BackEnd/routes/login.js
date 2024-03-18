@@ -2,8 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 
-mongoose.connect('mongodb://localhost:27017/colligo');
-const db = mongoose.connection;
+mongoose.createConnection('mongodb://localhost:27017/colligo');
+
 
 const router = express.Router();
 
@@ -24,4 +24,4 @@ router.post('/', async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports = router; 

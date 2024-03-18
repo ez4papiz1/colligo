@@ -54,3 +54,13 @@ body, html {
     left: 25%;
     padding: 10px;
 }
+.message{
+    overflow-wrap: break-word;
+    background-color: #646faa;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin: 10px;
+    padding-left: 10px;
+}

@@ -2,12 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 
-mongoose.connect('mongodb://localhost:27017/colligo');
-const db = mongoose.connection;
+mongoose.createConnection('mongodb://localhost:27017/colligo');
+
 
 const router = express.Router();
 
-router.post('/addFriend', async (req, res) => {
+router.post('/', async (req, res) => {
+    res.render('FriendAdd');
     try {
         const uid = req.body.uid; 
         const friendUsername = req.body.friendname; 

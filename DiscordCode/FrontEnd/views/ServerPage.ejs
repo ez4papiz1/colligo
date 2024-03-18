@@ -6,6 +6,8 @@
     <title>Colligo</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/ServerPage.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src ="JS/ServerPage.js"></script>
 </head>
 <body>
     <div class="container-fluid h-100">
@@ -39,6 +41,30 @@
             </div>
         </div>
     </div>
-    <script src ="JS/ServerPage.js"></script>
+    <script>
+        var socket = io();
+        socket.on('connection', function() {
+            console.log('Connected to server');
+        });
+        
+        socket.on('receive-message', (message) => {
+            displayMessage(message, 'OtherUser');
+        });
+        const messageForm = document.getElementById('messageForm');
+        const messageInput = document.getElementById('messageInput');
+
+        messageForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            socket.emit('send-message', messageInput.value);
+            displayMessage(messageInput.value, 'You');
+        });
+        function displayMessage(message, user) {
+            const messageList = document.getElementById('messageList');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.innerHTML = `<strong>${user}</strong>: ${message}`;
+            messageList.appendChild(messageElement);
+        }
+    </script>
 </body>
 </html>

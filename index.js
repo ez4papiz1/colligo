@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/colligo');
 const db = mongoose.connection;
 const express = require('express')
 const app = express();
 const port = 3000;
+const http = require('http');
+const server = http.createServer(app);
+const { Server } =  require('socket.io');
+const io = new Server(server);
+const cors = require('cors');
+app.use(cors());
 
 app.use(express.json());
 app.set('views', './DiscordCode/FrontEnd/views');
@@ -11,27 +16,31 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/DiscordCode/FrontEnd/'));
 
 
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  password: String,
-});
-
 app.get('/', function(req, res) {
   res.render('login');
 });
 
-const User = mongoose.model('User', userSchema);
-
 const login = require('./DiscordCode/BackEnd/routes/login.js');
 const signup = require('./DiscordCode/BackEnd/routes/signup.js');
-const ServerPage = require('./DiscordCode/BackEnd/routes/ServerBackEnd.js');
+const ServerPage = require('./DiscordCode/BackEnd/routes/fetchServerData.js');
+const fetchServerData = require('./DiscordCode/BackEnd/routes/fetchServerData.js');
+const displayServer = require('./DiscordCode/BackEnd/routes/displayServer.js');
 
+
+app.use('/fetchServerData', fetchServerData);
+app.use('/displayServer', displayServer);
 app.use('/signup', signup);
 app.use('/login', login);
 app.use('/serverpage', ServerPage);
 
+io.on ('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('send-message', (message) => {
+    console.log('message: ' + message);
+    socket.broadcast.emit('receive-message',message);
+  });
+});
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-})
+server.listen(port, () => {
+  console.log(`listening on *:${port}`);
+});
