@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 
-mongoose.connect('mongodb://localhost:27017/colligo');
+mongoose.createConnection('mongodb://localhost:27017/colligo');
 const db = mongoose.connection;
 
 const router = express.Router();
