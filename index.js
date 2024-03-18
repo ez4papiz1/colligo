@@ -8,6 +8,7 @@ const server = http.createServer(app);
 const { Server } =  require('socket.io');
 const io = new Server(server);
 const cors = require('cors');
+
 app.use(cors());
 
 app.use(express.json());
@@ -25,8 +26,10 @@ const signup = require('./DiscordCode/BackEnd/routes/signup.js');
 const ServerPage = require('./DiscordCode/BackEnd/routes/fetchServerData.js');
 const fetchServerData = require('./DiscordCode/BackEnd/routes/fetchServerData.js');
 const displayServer = require('./DiscordCode/BackEnd/routes/displayServer.js');
+const createServer = require('./DiscordCode/BackEnd/routes/createServer.js');
 
 
+app.use('/createServer', createServer);
 app.use('/fetchServerData', fetchServerData);
 app.use('/displayServer', displayServer);
 app.use('/signup', signup);

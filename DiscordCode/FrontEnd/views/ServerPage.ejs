@@ -17,6 +17,17 @@
                     <li class="list-group-item py-2">S1</li> <!-- PlaceHolders Awaiting Backend Creation-->
                     <li class="list-group-item py-2">S2</li>
                 </ul>
+
+                <button id="createServerButton" class="btn btn-primary mb-2">Create Server</button>
+                <div id="createServerModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <form id="createServerForm" method="GET" action = "/createServer">
+                            <input type="text" name="serverName" class="form-control mb-2" id="serverNameInput" placeholder="Server Name">
+                            <button type="submit" class="btn btn-primary mb-2">Create</button>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div id="channelList" class="col-2 p-0">
                 <ul class="list-group list-group-flush">
