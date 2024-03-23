@@ -3,30 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Username</title>
-    <link rel="stylesheet" href="css/change_username.css"> 
+    <title>Account Settings</title>
+    <link rel="stylesheet" href="../css/account_settings.css"> 
 </head>
 <body>
-    <div class="button-container">
+    <div id="header">
         <h4>User Settings</h4>
-        <button class="btn" id="change-password" onclick="window.location.href='change_password.html'">Change Password</button>
-        <button class="btn" id="change-username" onclick="window.location.href='change_username.html'">Change Username</button>
-        <button class="btn" id="change-email" onclick="window.location.href='change_email.html'">Change Email</button>
     </div>
     <div class="container">
-        <form action="/change_username" method="POST">
-            <div>
-                <label for="new-username"><b>New Username</b></label>
-                <input type="username" placeholder="Enter New Username" name="new-username" required>
-            </div>
-            <div>
-                <label for="confirm-username"><b>Confirm New Username</b></label>
-                <input type="username" placeholder="Confirm New Username" name="confirm-username" required>
-            </div>
-            <div class = btn-container>
-                <button type="submit" class="btn_submit">Change</button>
-                <button type="cancel" class="btn_cancel">Close</button>
-            </div>
-        </form>
+        <div class="button-container">
+            <button class="btn" id="change-password" onclick="window.location.href='change_password.html'">Change Password</button>
+            <button class="btn" id="change-username" onclick="window.location.href='change_username.html'">Change Username</button>
+            <button class="btn" id="change-email" onclick="window.location.href='change_email.html'">Change Email</button>
+        </div>
+        <div class="form-container">
+            <form action="/change_username" method="POST">
+                <div>
+                    <label for="new-username"><b>New Username</b></label>
+                    <input type="text" placeholder="Enter New Username" name="new-username" required>
+                </div>
+                <div>
+                    <label for="confirm-username"><b>Confirm New Username</b></label>
+                    <input type="text" placeholder="Confirm New Username" name="confirm-username" required>
+                </div>
+                <div class = btn-container>
+                    <button type="submit" class="btn_submit">Change</button>
+                    <button type="cancel" class="btn_cancel">Close</button>
+                </div>
+            </form>         
+        </div>
     </div>
 </body>
+</html>
