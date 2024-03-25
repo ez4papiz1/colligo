@@ -98,3 +98,24 @@ body, html {
     text-decoration: none;
     cursor: pointer;
 }
+#createChannelForm input[type="text"] {
+    background-color: #424549;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#createChannelForm button {
+    background-color: #424549;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#createChannelButton{
+
+    background-color: #424549;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    bottom: 0;
+}

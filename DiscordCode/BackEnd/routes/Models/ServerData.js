@@ -12,10 +12,8 @@ const ServerDataSchema = new Schema({
         type: String,
     }],
     channels: [{
-        type: String,
-    }],
-    messages: [{
-        type: String,
+        name: String,
+        messages: [String]
     }]
 });
 
