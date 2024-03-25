@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Server = require('./models/Server.model');
+const Server = require('./models/ServerData.js');
 
 mongoose.createConnection('mongodb://localhost:27017/colligo');
-const db = mongoose.connection;
 
 router.post('/upName', async (req, res) => {
     try {
@@ -19,13 +18,18 @@ router.post('/upName', async (req, res) => {
     }
 });
 
-router.post('/updDesc', async (req, res) => {
+router.post('/dltCnl', async (req, res) => {
     try {
-        const {sid, ndesc} = req.body;
+        const {sid, cname} = req.body;
         const server = await Server.findById(sid);
-        server.description = ndesc;
-        await server.save();
-        res.status(200).json({message: 'description updated', sdesc: server.description});
+        const index = server.channels.indexOf(cname);
+        if (index !== -1) {
+            server.channels.splice(index, 1);
+            await server.save();
+            res.status(200).json({message: 'Channel deleted', serverChannels: server.channels});
+        } else {
+            res.status(404).json({error: 'channel not found'});
+        }
     } catch (err) {
         console.error(err);
         res.status(500).json({error: 'error'});
@@ -36,9 +40,9 @@ router.post('/banUser', async (req, res) => {
     try {
         const {sid, uid} = req.body;
         const server = await Server.findById(sid);
-        const index = server.users.indexOf(uid);
+        const index = server.members.indexOf(uid);
         if (index !== -1) {
-            server.users.splice(index, 1);
+            server.members.splice(index, 1);
             await server.save();
             res.status(200).json({message: 'User banned', serverUsers: server.users});
         } else {
