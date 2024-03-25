@@ -3,11 +3,12 @@ const mongoose = require('mongoose');
 const User = require('./models/User');
 
 mongoose.createConnection('mongodb://localhost:27017/colligo');
-const db = mongoose.connection;
+
 
 const router = express.Router();
 
-router.post('/addFriend', async (req, res) => {
+router.post('/', async (req, res) => {
+    res.render('FriendAdd');
     try {
         const uid = req.body.uid; 
         const friendUsername = req.body.friendname; 
@@ -15,18 +16,18 @@ router.post('/addFriend', async (req, res) => {
         // Retrieve the user document from the database
         const user = await User.findById(uid);
         if (!user) {
-            return res.status(404).send('User not found');
+            return res.status(404).json({error: 'User not found'});
         }
 
         // Retrieve the friend's user document by username
         const friend = await User.findOne({ username: friendUsername });
         if (!friend) {
-            return res.status(404).send('Friend not found');
+            return res.status(404).json({error: 'Friend not found'});
         }
 
         // Check if the friend is already in the user's friendlist
         if (user.friendlist.includes(friend.uid)) {
-            return res.status(400).send('Already friends');
+            return res.status(400).json({error: 'Already friend'});
         }
 
         // Add the friend's ID to the user's friendlist and save the update
@@ -34,7 +35,6 @@ router.post('/addFriend', async (req, res) => {
         await user.save();
 
         res.status(200).json({message: 'friend added', fname: friend.name});
-
     } catch (err) {
         console.error(err);
         res.status(500).json({error: 'error'});

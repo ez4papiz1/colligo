@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 
 
 mongoose.createConnection('mongodb://localhost:27017/colligo');
-const db = mongoose.connection;
+
 
 const router = express.Router();
 
 
 router.post('/', async (req, res) => {
+    res.render('login');
     const {name, email, password} = req.body;
     try {
         const user = await User.findOne({name, email, password});
