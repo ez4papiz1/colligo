@@ -15,8 +15,8 @@ async function main(){
     mongoose.connection.close();
 }
 
-async function createServerData(sid, name,channels, members,messages) {
-    const serverdata ={sid: sid, name: name, channels: channels, members: members, messages: messages};
+async function createServerData(sid, name,channels, members) {
+    const serverdata = { sid, name, channels, members};
     const newServerData = new ServerData(serverdata);
     await newServerData.save();
     console.log('ServerData created');
@@ -24,6 +24,6 @@ async function createServerData(sid, name,channels, members,messages) {
 async function populateServerData() {
     console.log('populating server data');
     await Promise.all([
-        createServerData(99, 'TestServerJordan', ['TestChannel1', 'TestChannel2','TestChannel3', 'TestChannel4'], ['member1', 'member2', 'member3','member4'], ['This is a test Message', 'This message is meant for testing'])
+        createServerData(1, 'TestServerJordan', [{name: 'General', messages: ['Hello']}], ['Jordan'], ['Hello']),
     ]);
 }

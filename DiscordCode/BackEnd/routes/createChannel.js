@@ -17,17 +17,23 @@ router.get('/', (req, res) => {
     res.write('<h1>Server Created</h1>');
     res.write('<p>' + req.query.serverName + '</p>'); 
     res.write('<p>Server Created</p>');
-    res.write('<a href="/displayServer">Return to server page to see new server</a>'); 
+    res.write('<a href="/displayServer">Return to server page to see new channel</a>'); 
     res.write('</body>');
     res.write('</html>');
-   
-    ServerData.create({
-        sid: Math.floor(Math.random() * 100),
-        name: req.query.serverName,
-        channels: ['general','help'], //default channels
-        members: ['Jordan','John'], //default members
-        messages: ['Hi','Hello'] //default messages
-    })
-    res.end();
+    ServerData.find({name: 'TestServerJordan'}).then((result) => {
+        if (result.length > 0) {
+            const server = result[0];
+            server.channels.push({ name: req.query.channelName, messages: ['test'] });
+            server.save().then(() => {
+            console.log('Channel created successfully');
+            }).catch((error) => {
+            console.error('Failed to create channel:', error);
+            });
+        } else {
+            console.error('Server not found');
+        }
+    });
+
 });
+
 module.exports = router; 
