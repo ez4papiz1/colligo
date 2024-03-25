@@ -16,11 +16,11 @@ router.post('/', async (req, res) => {
             password: req.body.password,
         });
         await newUser.save();
-        res.status(201).send('success');
+        res.status(201).json({message: 'name updated successfully', nname: User.name});
     } catch (err) {
         console.error(err);
-        res.status(500).send('error');
+        res.status(500).json({error: 'error'});
     }
 });
 
-module.exports = router; 
+module.exports = router;
