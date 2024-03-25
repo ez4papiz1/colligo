@@ -76,9 +76,8 @@ test('displayChannels appends channels to the channelList', () => {
   });
   const socket = { emit: jest.fn() };
 
-  describe('messageForm submit event integration with displayMessage', () => {
+  describe('messageForm submit event with displayMessage', () => {
     beforeEach(() => {
-      // Reset document body and mock function
       document.body.innerHTML = `
         <form id="messageForm">
           <input id="messageInput" />
@@ -86,7 +85,7 @@ test('displayChannels appends channels to the channelList', () => {
         <div id="messageDisplayArea"></div>
       `;
       socket.emit.mockClear();
-      currentChannel = 'General'; // Assuming currentChannel is accessible in this context
+      currentChannel = 'General'; 
   
       const messageForm = document.getElementById('messageForm');
       const messageInput = document.getElementById('messageInput');
@@ -107,10 +106,9 @@ test('displayChannels appends channels to the channelList', () => {
       const form = document.getElementById('messageForm');
       const submitEvent = new Event('submit');
       form.dispatchEvent(submitEvent);
-  
       const messageList = document.getElementById('messageDisplayArea');
-      expect(messageList.children.length).toBe(1); // Expect 1 message in the display area
-      expect(messageList.innerHTML).toContain('<strong>You</strong>: Hello World'); // Corrected expectation string
+      expect(messageList.children.length).toBe(1); 
+      expect(messageList.innerHTML).toContain('<strong>You</strong>: Hello World'); 
       expect(socket.emit).toHaveBeenCalledWith('send-message', {
         message: 'Hello World',
         channelName: currentChannel,
