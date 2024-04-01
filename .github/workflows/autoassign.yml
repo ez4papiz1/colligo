@@ -5,8 +5,6 @@ on:
     types: 
       - opened
       - reopened
-env:
-  DEFAULT_ISSUE_ASSIGNEE: GITHUB_ACTOR
 
 jobs:
     auto-assign:
@@ -17,6 +15,6 @@ jobs:
             - name: 'Auto-assign issue'
               uses: pozil/auto-assign-issue@v1
               with:
-                  assignees: ${{ vars.DEFAULT_ISSUE_ASSIGNEE }}
+                  assignees: ${{ github.actor }}
                   numOfAssignee: 1
                   allowSelfAssign: true
