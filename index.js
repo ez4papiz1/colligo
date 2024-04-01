@@ -46,9 +46,11 @@ const fetchServerData = require('./DiscordCode/BackEnd/routes/fetchServerData.js
 const displayServer = require('./DiscordCode/BackEnd/routes/displayServer.js');
 const createServer = require('./DiscordCode/BackEnd/routes/createServer.js');
 const VideoCall = require('./DiscordCode/BackEnd/routes/VideoCall.js');
+const createChannel = require('./DiscordCode/BackEnd/routes/createChannel.js');
 
 
 app.use('/createServer', createServer);
+app.use('/createChannel', createChannel);
 app.use('/fetchServerData', fetchServerData);
 app.use('/displayServer', displayServer);
 app.use('/signup', signup);
