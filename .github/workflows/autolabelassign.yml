@@ -4,6 +4,8 @@ on:
     types:
       - reopened
       - opened
+env:
+  DEFAULT_ISSUE_ASSIGNEE: GITHUB_ACTOR
 jobs:
   label-issues:
     runs-on: ubuntu-latest
@@ -16,8 +18,6 @@ jobs:
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
           LABELS: triage
-      - env:
-          DEFAULT_ISSUE_ASSIGNEE: GITHUB_ACTOR
       - name: 'Auto-assign issue'
         uses: pozil/auto-assign-issue@v1
         with:
