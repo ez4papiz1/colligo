@@ -21,4 +21,5 @@ jobs:
         env:
           DEFAULT_ISSUE_ASSIGNEE: GITHUB_ACTOR
         with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           assignees: ${{ vars.DEFAULT_ISSUE_ASSIGNEE }}
