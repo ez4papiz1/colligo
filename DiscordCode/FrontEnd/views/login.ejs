@@ -20,7 +20,13 @@
             
             <button type="submit">Login</button>
         </form>
-        <p class="sign-up-link">Don't have an account? <a href="#">Create One.</a></p>
+        <p class="sign-up-link">Don't have an account? <a href="/signup">Create One.</a></p>
     </div>
+    <script>
+        document.querySelector('.login_signup-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            window.location.href = '/ServerPage'; // Redirect to the server page
+        });
+    </script>
 </body>
 </html>
