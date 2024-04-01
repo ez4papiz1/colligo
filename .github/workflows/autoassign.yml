@@ -19,3 +19,6 @@ jobs:
                   assignees: DEFAULT_ISSUE_ASSIGNEE
                   numOfAssignee: 1
                   allowSelfAssign: true
+                  allowNoAssignees: true
+                  removePreviousAssigness: true
+                  
