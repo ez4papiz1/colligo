@@ -2,9 +2,7 @@ name: Issue assignment
 
 on:
   issues:
-    types: 
-      - opened
-      - reopened
+    types: [opened]
 env:
   DEFAULT_ISSUE_ASSIGNEE: ${{ github.actor }}
 jobs:
