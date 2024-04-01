@@ -24,9 +24,8 @@ router.get('/', (req, res) => {
     ServerData.create({
         sid: Math.floor(Math.random() * 100),
         name: req.query.serverName,
-        channels: ['general','help'], //default channels
-        members: ['Jordan','John'], //default members
-        messages: ['Hi','Hello'] //default messages
+        members: ['660b196ff1e5954cd22ea261'],
+        channels: [{name: 'General', messages: ['Hello']}],
     })
     res.end();
 });

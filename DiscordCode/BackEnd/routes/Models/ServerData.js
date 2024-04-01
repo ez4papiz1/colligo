@@ -9,12 +9,13 @@ const ServerDataSchema = new Schema({
         type: String,
     },
     members: [{
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }],
     channels: [{
         name: String,
         messages: [String]
-    }]
+    }],
 });
 
 module.exports = mongoose.model('server', ServerDataSchema)

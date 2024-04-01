@@ -16,7 +16,6 @@
           channelList.appendChild(li);
       });
     }
-
     function MockDisplayUsers(users) {
       const userList = document.getElementById('userList');
       users.forEach(user => {

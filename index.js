@@ -30,6 +30,7 @@ const fetchServerData = require('./DiscordCode/BackEnd/routes/fetchServerData.js
 const displayServer = require('./DiscordCode/BackEnd/routes/displayServer.js');
 const createServer = require('./DiscordCode/BackEnd/routes/createServer.js');
 const createChannel = require('./DiscordCode/BackEnd/routes/createChannel.js');
+const fetchUserServers = require('./DiscordCode/BackEnd/routes/fetchUserServers.js');
 
 
 app.use('/createChannel', createChannel);
@@ -39,6 +40,7 @@ app.use('/displayServer', displayServer);
 app.use('/signup', signup);
 app.use('/login', login);
 app.use('/serverpage', ServerPage);
+app.use('/fetchUserServers', fetchUserServers);
 
 io.on ('connection', (socket) => {
     console.log('a user connected');
@@ -46,28 +48,28 @@ io.on ('connection', (socket) => {
         console.log('message: ' + message);
         socket.broadcast.emit('receive-message', message);
         ServerData.findOneAndUpdate(
-            { sid: 1, 'channels.name': channelName },
-            { $push: { 'channels.$.messages': message } },
-            { new: true }
-        ).then(updatedServer => {
-            if(!updatedServer) {
-                console.log('Error updating server data');
-                return;
-            }
-            console.log('Message added to channel');
-        }).catch(err => console.log(err));
+          { _id: serverId, 'channels.name': channelName },
+          { $push: { 'channels.$.messages': message } },
+          { new: true }
+      ).then(updatedServer => {
+          if (!updatedServer) {
+              console.log('Error updating server data');
+              return;
+          }
+          console.log('Message added to channel');
+      }).catch(err => console.log(err));
     });
-    socket.on('channelSelected', (channelName) => {
-      ServerData.findOne({ 'channels.name': channelName }, 'channels.$').then(server => {
+    socket.on('channelSelected', ({ serverId, channelName }) => {
+      ServerData.findOne({ 
+          '_id': serverId, 
+          'channels.name': channelName 
+      }, 'channels.$')
+      .then(server => {
           const messages = server.channels[0].messages;
           socket.emit('channelMessages', messages); 
       }).catch(err => console.log(err));
   });
-
 });
-
-
-
 server.listen(port, () => {
   console.log(`listening on *:${port}`);
 });
