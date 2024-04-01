@@ -16,9 +16,9 @@ jobs:
           GH_REPO: ${{ github.repository }}
           NUMBER: ${{ github.event.issue.number }}
           LABELS: triage
-      - name: 'Auto-assign issue'
-        env:
+      - env:
           DEFAULT_ISSUE_ASSIGNEE: GITHUB_ACTOR
+      - name: 'Auto-assign issue'
         uses: pozil/auto-assign-issue@v1
         with:
           assignees: ${{ vars.DEFAULT_ISSUE_ASSIGNEE }}
