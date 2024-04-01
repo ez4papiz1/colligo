@@ -20,7 +20,23 @@ app.use(express.static(__dirname + '/DiscordCode/FrontEnd/'));
 
 
 app.get('/', function(req, res) {
+  res.render('home');
+});
+
+app.get('/login', (req, res) => {
   res.render('login');
+});
+
+app.get('/signup', (req, res) => {
+  res.render('signup');
+});
+
+app.get('/ServerPage', (req, res) => {
+  res.render('ServerPage');
+});
+
+app.get('/VideoCall', (req, res) => {
+  res.render('VideoCall');
 });
 
 const login = require('./DiscordCode/BackEnd/routes/login.js');
@@ -29,16 +45,16 @@ const ServerPage = require('./DiscordCode/BackEnd/routes/fetchServerData.js');
 const fetchServerData = require('./DiscordCode/BackEnd/routes/fetchServerData.js');
 const displayServer = require('./DiscordCode/BackEnd/routes/displayServer.js');
 const createServer = require('./DiscordCode/BackEnd/routes/createServer.js');
-const createChannel = require('./DiscordCode/BackEnd/routes/createChannel.js');
+const VideoCall = require('./DiscordCode/BackEnd/routes/VideoCall.js');
 
 
-app.use('/createChannel', createChannel);
 app.use('/createServer', createServer);
 app.use('/fetchServerData', fetchServerData);
 app.use('/displayServer', displayServer);
 app.use('/signup', signup);
 app.use('/login', login);
 app.use('/serverpage', ServerPage);
+app.use('/VideoCall', VideoCall)
 
 io.on ('connection', (socket) => {
     console.log('a user connected');
