@@ -11,12 +11,12 @@ router.get('/', (req, res) => {
     res.write('<!DOCTYPE html>');
     res.write('<html>');
     res.write('<head>');
-    res.write('<title>Server Creation</title>');
+    res.write('<title>Channel Creation</title>');
     res.write('</head>');
     res.write('<body>');
-    res.write('<h1>Server Created</h1>');
+    res.write('<h1>Channel Created</h1>');
     res.write('<p>' + req.query.serverName + '</p>'); 
-    res.write('<p>Server Created</p>');
+    res.write('<p>Channel Created</p>');
     res.write('<a href="/displayServer">Return to server page to see new channel</a>'); 
     res.write('</body>');
     res.write('</html>');

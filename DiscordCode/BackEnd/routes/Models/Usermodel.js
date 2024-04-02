@@ -23,6 +23,11 @@ const UserSchema = new Schema({
     },
     friendlist: [{
         type: String,
+    }],
+    servers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Server',
+        default: [] 
     }]
 })
 
