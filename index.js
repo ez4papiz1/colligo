@@ -11,16 +11,48 @@ const cors = require('cors');
 const ServerData = require('./DiscordCode/BackEnd/routes/Models/ServerData');
 mongoose.createConnection("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo" , { useNewUrlParser: true, useUnifiedTopology: true })
 
+const session = require('express-session');
+const sharedSession = require('express-socket.io-session');
+const userSessions = {}; //mapping of socket ID to user session
+
 app.use(cors());
+
+// Session setup
+const sessionMiddleware = session({
+  secret: 'secretkey',
+  resave: true,
+  saveUninitialized: true,
+});
 
 app.use(express.json());
 app.set('views', './DiscordCode/FrontEnd/views');
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/DiscordCode/FrontEnd/'));
+app.use(sessionMiddleware);
+
+// Share session with io
+io.use(sharedSession(sessionMiddleware));
+
 
 
 app.get('/', function(req, res) {
+  res.render('home');
+});
+
+app.get('/login', (req, res) => {
   res.render('login');
+});
+
+app.get('/signup', (req, res) => {
+  res.render('signup');
+});
+
+app.get('/ServerPage', (req, res) => {
+  res.render('ServerPage');
+});
+
+app.get('/VideoCall', (req, res) => {
+  res.render('VideoCall');
 });
 
 const login = require('./DiscordCode/BackEnd/routes/login.js');
@@ -33,14 +65,16 @@ const createChannel = require('./DiscordCode/BackEnd/routes/createChannel.js');
 const fetchUserServers = require('./DiscordCode/BackEnd/routes/fetchUserServers.js');
 
 
-app.use('/createChannel', createChannel);
 app.use('/createServer', createServer);
+app.use('/createChannel', createChannel);
 app.use('/fetchServerData', fetchServerData);
 app.use('/displayServer', displayServer);
 app.use('/signup', signup);
 app.use('/login', login);
 app.use('/serverpage', ServerPage);
 app.use('/fetchUserServers', fetchUserServers);
+
+io.use(sharedSession(sessionMiddleware));
 
 io.on ('connection', (socket) => {
     console.log('a user connected');
@@ -68,6 +102,21 @@ io.on ('connection', (socket) => {
           const messages = server.channels[0].messages;
           socket.emit('channelMessages', messages); 
       }).catch(err => console.log(err));
+  });
+  const userEmail = socket.handshake.session.email;
+  if (!userEmail) {
+      console.log('User email not found in session.');
+      return;
+  }
+  console.log(`${userEmail} connected for video calling.`);
+  socket.on('initiate-call', ({ calleeEmail }) => {
+      const calleeSocketId = Object.keys(io.sockets.sockets).find(key => io.sockets.sockets[key].handshake.session.email === calleeEmail);
+      if (calleeSocketId) {
+          io.to(calleeSocketId).emit('incoming-call', { from: userEmail });
+          console.log(`Call initiated from ${userEmail} to ${calleeEmail}`);
+      } else {
+          socket.emit('call-error', `User ${calleeEmail} is not online.`);
+      }
   });
 });
 server.listen(port, () => {
