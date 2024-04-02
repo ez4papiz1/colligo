@@ -11,3 +11,4 @@ jobs:
         with:
           project: Product/Sprint backlog
           column: In Progress
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
