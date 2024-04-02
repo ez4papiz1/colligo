@@ -14,9 +14,9 @@ jobs:
             - name: 'Auto-assign issue'
               uses: pozil/auto-assign-issue@v1
               with:
-                  assignees: TrenchII,LuniLux24
+                  assignees: ${{ github.actor }}
                   numOfAssignee: 1
                   allowSelfAssign: true
                   allowNoAssignees: true
-                  removePreviousAssigness: true
+                  removePreviousAssignees: true
                   
