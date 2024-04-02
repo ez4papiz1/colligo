@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
         }
 
         // Retrieve the friend's user document by username
-        const friend = await User.findOne({ username: friendUsername });
+        const friend = await User.findOne({ name: friendUsername });
         if (!friend) {
             return res.status(404).json({error: 'Friend not found'});
         }
