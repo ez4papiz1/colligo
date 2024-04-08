@@ -1,44 +1,101 @@
-body{
-    background-color: #7785cc;
+body {
+    background: linear-gradient(to bottom right, #7785cc, #d3dce8); /* Gradient background */
     margin: 0;
     padding: 0;
     padding-top: 10%;
-    
 }
-.login_signup{
-    background-color: #FFF;
+
+.login_signup {
+    background: #FFF; /* White background */
     padding: 40px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
     width: 300px;
+    border-radius: 10px; /* Rounded corners */
 }
-h2 {
+
+.login_signup h2 {
     text-align: center;
-    color: #333;
+    color: #333; /* Text color */
 }
+
 .login_signup-form {
     margin-top: 20px;
 }
+
 .login_signup input[type="email"],
 .login_signup input[type="password"],
 .login_signup input[type="text"],
-.login_signup input[type="file"]{
-        width: 92%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #CCC;
-    }
-.login_signup button {
-        width: 100%;
-        padding: 10px;
-        margin: 20px 0;
-        background-color: #7785cc;
-        color: white;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        border-radius: 5px;
+.login_signup input[type="file"] {
+    width: 100%; /* Full width */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light gray background */
 }
+
+.login_signup button {
+    width: 100%; /* Full width */
+    padding: 10px;
+    margin: 20px 0;
+    background-color: #7785cc; /* Button background color */
+    color: white; /* Button text color */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+}
+
 .login_signup button:hover {
-        background-color: #7785cc;
+    background-color: #3b6cac; /* Darker button background color on hover */
+}
+
+nav {
+    background: linear-gradient(to right, #ffffff 0%, #ffffff 50%, #7e57c2 100%);
+    color: #333;
+    width: 100%;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 60px; 
+    transition: transform 0.3s ease;
+}
+
+.logo {
+    flex-grow: 1; 
+}
+
+.logo img:hover {
+    transform: scale(1.1);
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0; 
+}
+
+nav ul li {
+    margin-left: 25px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+}
+
+nav ul li a:hover {
+    color: #7e57c2;
 }
