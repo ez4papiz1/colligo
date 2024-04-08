@@ -1,0 +1,27 @@
+body {
+    background-color: #7785cc; 
+    color: #424549; 
+    font-family: Arial, sans-serif; 
+}
+.container {
+    max-width: 800px; 
+    margin: 20px auto; 
+    background-color: #ffffff; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+}
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn-join {
+    background-color: #424549; 
+    color: white;
+    border: none;
+}
+.btn-join:hover, .btn-join:focus {
+    background-color: #333740; 
+    color: white;
+}

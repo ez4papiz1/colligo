@@ -1,0 +1,35 @@
+body {
+    background-color: #7785cc; 
+    color: #424549;
+    font-family: Arial, sans-serif; 
+}
+
+#searchForm {
+    max-width: 600px; 
+    margin: auto; 
+    padding: 2rem; 
+    background-color: #ffffff; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    border-radius: 8px; 
+}
+.form-group label {
+    font-weight: bold; 
+}
+
+.btn-primary {
+    background-color: #424549; 
+    border-color: #424549; 
+}
+
+.btn-primary:hover {
+    background-color: #333740; 
+    border-color: #333740;
+}
+.form-control:focus {
+    border-color: #424549;
+    box-shadow: 0 0 0 0.2rem rgba(66, 69, 73, 0.25);
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.2rem rgba(66, 69, 73, 0.5);
+}

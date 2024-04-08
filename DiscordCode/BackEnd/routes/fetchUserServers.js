@@ -9,6 +9,7 @@ mongoose.createConnection("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.
 const router = express.Router();
 router.get('/', (req, res) => {
         console.log('Connected to server');
+        const username = req.session.name;
         User.find({ name: "Jordan" }).then(user => {
             console.log(user);
             if (!user) {

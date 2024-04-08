@@ -1,5 +1,6 @@
 // Import the functions for testing
 /** @jest-environment jsdom */
+
     function MockSisplayMessage2(message, user) {
       const messageList = document.getElementById('messageDisplayArea');
       const messageElement = document.createElement('div');
@@ -25,6 +26,27 @@
           userList.appendChild(li);
       });
   }
+  function MockfetchServersAndGenerateButtons() {
+    console.log('Fetching server data...');
+    fetch('http://localhost:3000/fetchUserServers') 
+        .then(response => response.json())
+        .then(servers => {
+            console.log('Servers:', servers);
+            const serverList = document.querySelector('#serverList ul.list-group');
+            serverList.innerHTML = ''; 
+
+            servers.forEach(server => {
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item py-2';
+                listItem.textContent = server.name; 
+                listItem.onclick = () => {
+                    selectServer(server._id); 
+                };
+                serverList.appendChild(listItem); 
+            });
+        })
+        .catch(error => console.error('Failed to load servers:', error));
+  }
   function MockDisplayServers(servers){
     const serverList = document.getElementById('serverList');
     servers.forEach(server => {
@@ -33,17 +55,31 @@
         li.textContent = server.name;
         serverList.appendChild(li);
     });
-}
-
-
-test('displayChannels appends channels to the channelList', () => {
-    document.body.innerHTML = '<div id="channelList"></div>';
-    const channelList = [{ name: 'Channel 1' }, { name: 'Channel 2' }];
-    MockDisplayChannels(channelList);
-    const listItems = document.querySelectorAll('#channelList li');
-    expect(listItems.length).toBe(channelList.length);
-    expect(listItems[0].textContent).toBe('Channel 1');
-    expect(listItems[1].textContent).toBe('Channel 2');
+  }
+  function mockClearMessages() {
+    const messageDisplayArea = document.getElementById('messageDisplayArea');
+    if (messageDisplayArea) {
+        messageDisplayArea.innerHTML = '';
+    }
+  }
+  let currentServer = ''; 
+  let currentChannel = '';
+  function MockselectServer(serverId) {
+      currentServer = serverId; 
+      currentChannel = ''; 
+      mockClearMessages();
+      //MockFetch(serverId);
+  }
+  test('MockSelectServer sets currentServer and currentChannel', () => {
+    MockselectServer('660b196ff1e5954cd22ea264');
+    expect(currentServer).toBe('660b196ff1e5954cd22ea264');
+    expect(currentChannel).toBe('');
+  });
+  test('clearMessages clears the messageDisplayArea', () => {
+    document.body.innerHTML = '<div id="messageDisplayArea">Hello</div>';
+    mockClearMessages();
+    const messageDisplayArea = document.getElementById('messageDisplayArea');
+    expect(messageDisplayArea.innerHTML).toBe('');
   });
 
   test('displayUsers appends users to the userList', () => {
