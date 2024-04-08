@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/SearchPage.css">
+</head>
+<body>
+    <form id="searchForm" class="container mt-3" action="/searchResults" method="GET">
+        <div class="form-group">
+            <label for="serverName">Search</label>
+            <input type="text" class="form-control" name="serverName" id="serverName" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</body>
+</html>

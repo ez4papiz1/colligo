@@ -110,12 +110,65 @@ body, html {
     border-top: lightgray 1px solid;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-#createChannelButton{
-
+#createServerButton{
     background-color: #424549;
     color: white;
-    border-top: lightgray 1px solid;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: absolute;
+    border-style: solid;
     bottom: 0;
 }
+#userProfileButton{
+    background-color: #424549;
+    color: white;
+    border-style: solid;
+    bottom: 0;
+}
+#joinVoiceChannelButton{
+    background-color: #424549;
+    color: white;
+    border-style: solid;
+    bottom: 0;
+}
+#createChannelButton{
+    background-color: #424549;
+    color: white;
+    border-style: solid;
+    bottom: 0;
+}
+#serverList, #channelList, #userList {
+    transition: background-color 0.3s ease; 
+}
+#serverList, #channelList, #userList {
+    position: relative; 
+    padding-bottom: 150px; 
+}
+#userProfileButton {
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+    width: 100%; 
+}
+#createServerButton {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    width: 100%;
+}
+#createChannelButton {
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+    width: 100%; 
+}
+#joinVoiceChannelButton {
+    position: absolute;
+    bottom: 50px; 
+    left: 0;
+    width: 100%;
+}
+#FindServerButton {
+    position: absolute;
+    bottom: 100px; 
+    left: 0;
+    width: 100%;
+}
+

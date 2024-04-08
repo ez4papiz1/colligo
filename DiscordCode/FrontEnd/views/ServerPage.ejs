@@ -12,11 +12,11 @@
 <body>
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div id="serverList" class="col-1 p-0 d-flex flex-column align-items-center">
+            <div id="serverList" class="col-1 p-0">
                 <ul class="list-group list-group-flush">
                     
                 </ul>
-
+                <button id="FindServerButton" class="btn btn-primary mb-2">Find Server</button>
                 <button id="createServerButton" class="btn btn-primary mb-2">Create Server</button>
                 <div id="createServerModal" class="modal">
                     <div class="modal-content">
@@ -27,12 +27,14 @@
                         </form>
                     </div>
                 </div>
+                <button id="userProfileButton" class="btn btn-primary mb-2"><%= username %></button> <!-- Added user profile button -->
             </div>
             <div id="channelList" class="col-2 p-0">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">General</li> <!-- PlaceHolders Awaiting Backend Creation-->
                     <li class="list-group-item">Help</li>
                 </ul>
+                <button id="joinVoiceChannelButton" class="btn btn-primary mb-2">Join Voice Channel</button> 
                 <button id="createChannelButton" class="btn btn-primary mb-2">Create Channel</button>
                 <div id="createChannelModal" class="modal">
                     <div class="modal-content">

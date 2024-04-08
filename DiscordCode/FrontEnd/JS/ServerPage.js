@@ -29,6 +29,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 chanmodal.style.display = "none";
             }
         } 
+        const userProfileButton = document.getElementById('userProfileButton');
+        userProfileButton.addEventListener('click', function() {
+            window.location.href = '/AccountSettings';
+        });
+        const findServerButton = document.getElementById('FindServerButton');
+        findServerButton.addEventListener('click', function() {
+            window.location.href = '/searchServer';
+        });
         function fetchServersAndGenerateButtons() {
             console.log('Fetching server data...');
             fetch('http://localhost:3000/fetchUserServers') 
@@ -75,12 +83,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         const channelNames = serverData.channels.map(channel => channel.name);
                         displayChannels(channelNames);
                         displayMembers(serverData.members);
-                        displayMessages(serverData.channels[0].messages); 
                     }
                 })
                 .catch(error => console.error('Failed to fetch server data:', error));
         } 
         var socket = io();
+        const joinVoiceChannelButton = document.getElementById('joinVoiceChannelButton');
+        joinVoiceChannelButton.addEventListener('click', () => {
+            socket.emit('join-voice-channel', { serverId: serverId});
+            window.location.href = `/voice-call?serverId=${serverId}`;
+        });
         socket.on('connection', function() {
             console.log('Connected to server');
         });
@@ -89,7 +101,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         const messageForm = document.getElementById('messageForm');
         const messageInput = document.getElementById('messageInput');
-
+        function displayMessages(messages) {
+            const messageList = document.getElementById('messageDisplayArea');
+            messages.forEach(message => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerText = message;
+                messageList.appendChild(messageElement);
+            });
+        }
         function displayMessage(message, user) {
             const messageList = document.getElementById('messageDisplayArea');
             const messageElement = document.createElement('div');
@@ -99,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         function displayChannels(channels) {
             const channelList = document.querySelector('#channelList .list-group');
-            const title = document.querySelector('.channel-title');
             channelList.innerHTML = '';
             for (let i = 0; i < channels.length; i++) {
                 const li = document.createElement('li');
@@ -108,14 +127,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 li.setAttribute('data-channel-name', channels[i]); 
                 li.addEventListener('click', function() {
                     currentChannel = this.getAttribute('data-channel-name');
-                    title.innerHTML = 'Channel: ' + currentChannel;
                     clearMessages();
-                    socket.emit('channelSelected', { serverId: currentServer, channelName: currentChannel }); 
+                    console.log('Selected channel:', currentChannel);
+                    socket.emit('channelSelected', { serverId: currentServer, channelName: currentChannel });
                 });
                 channelList.appendChild(li);
             }
         }
         socket.on('channelMessages', function(messages) {
+            console.log('Received messages:', messages);
             displayMessages(messages);
         });
         messageForm.addEventListener('submit', function(e) {
@@ -133,14 +153,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 userList.appendChild(li);
             }
         }
-        function displayMessages(messages) {
-            for (let i = 0; i < messages.length; i++) {
-                const messageList = document.getElementById('messageDisplayArea');
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message');
-                messageElement.innerText = messages[i];
-                messageList.appendChild(messageElement);
-            }
-        } 
     });
 

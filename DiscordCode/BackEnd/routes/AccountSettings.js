@@ -1,15 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('./Models/User.model');
+const User = require('./Models/Usermodel');
 
-mongoose.createConnection('mongodb://localhost:27017/colligo');
+ mongoose.createConnection("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo" , { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
-    res.render('account_settings');
-    try {
+router.get('/', async (req, res) => {
+    const username = req.session.name;
+    req.session.save();
+    res.render('account_settings', { username: username });
+     try {
+
         const uid = req.body.uid;
         const updated = {
             name: req.body.name,
@@ -21,7 +24,7 @@ router.post('/', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({error: 'error'});
-    }
+    } 
 });
 
 module.exports = router;
