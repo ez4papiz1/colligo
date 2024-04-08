@@ -10,7 +10,14 @@ const router = express.Router();
 router.get('/:serverId', (req, res) => {
     const serverId = req.params.serverId;
     Server.findById(serverId).then (result => {
-        res.json(result);
+        User.find({ _id: result.members } ).then(users => {
+            const memberNames = users.map(user => user.name);
+            const modifiedResult = {
+                ...result.toObject(),
+                members: memberNames
+            };
+            res.json(modifiedResult);
+        });
     });   
 });
 
