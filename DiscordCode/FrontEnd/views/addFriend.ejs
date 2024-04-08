@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Friends</title>
+    <link rel="stylesheet" href="../css/addFriend.css">
+</head>
+<body>
+    <h1>Add Friends</h1>
+    <form action="/addFriend" method="POST" onsubmit="return validateForm()">
+        <label for="friendID">Friend ID:</label>
+        <input type="text" id="friendID" name="friendID">
+        <input type="submit" value="Add Friend">
+    </form>
+    <a href="friend_page.ejs">Back to Friend Page</a>
+
+    <script>
+    // Client-side validation for the form
+    // Must check for empty fields, input is 8 digit number.
+    function validateForm() {
+        const friendID = document.getElementById("friendID").value;
+
+        if (friendID.trim() === "") {
+            alert("Friend ID must not be empty.");
+            return false;
+        }
+
+        if (!/^\d{8}$/.test(friendID)) {
+            alert('Friend ID must be an 8-digit number.');
+            return false;
+        }
+
+        popUpMessage();
+        return true;
+
+    }
+
+    // Pop-up message to confirm friend request sent
+    function popUpMessage() {
+        alert("Friend request sent!");
+    }
+    
+    </script>
+
+    <h1>Incoming Requests</h1>
+    <div class="friend_request_list">
+        <div class="friend_request_module" id="incoming">
+            <img src="../images/logo.png" alt="avatar">
+            <h4>User 98112432</h4>
+            <button class="btn btn-primary">Accept</button>
+            <button class="btn btn-danger">Decline</button>
+        </div>
+        <div class="friend_request_module" id="incoming">
+            <img src="../images/logo.png" alt="avatar">
+            <h4>User 98112432</h4>
+            <button class="btn btn-primary">Accept</button>
+            <button class="btn btn-danger">Decline</button>
+        </div>
+    </div>
+
+    <h1>Outgoing Requests</h1>
+    <div class="friend_request_list">
+        <div class="friend_request_module" id="outgoing">
+            <img src="../images/logo.png" alt="avatar">
+            <h4>User 98112432</h4>
+            <button class="btn btn-remove">Remove</button>
+        </div>
+        <div class="friend_request_module" id="outgoing">
+            <img src="../images/logo.png" alt="avatar">
+            <h4>User 98112432</h4>
+            <button class="btn btn-remove">Remove</button>
+        </div>
+    </div>
+</body>
+</html>
