@@ -7,34 +7,31 @@
     <link rel="stylesheet" href="../css/account_settings.css"> 
 </head>
 <body>
-    <div id="header">
-        <h4>User Settings</h4>
-    </div>
+    <header>
+        <h2 id="username-heading">User Settings for <span id="username"><!-- Username will be inserted here --></span></h2>
+    </header>
     <div class="container">
         <div class="button-container">
+            <button class="btn" aria-label="View Account" onclick="window.location.href='account_settings.html'">View Account</button>
             <button class="btn" id="change-password" onclick="window.location.href='change_password.html'">Change Password</button>
             <button class="btn" id="change-username" onclick="window.location.href='change_username.html'">Change Username</button>
             <button class="btn" id="change-email" onclick="window.location.href='change_email.html'">Change Email</button>
         </div>
         <div class="form-container">
-            <form action="/change_password" method="POST">
+            <form action="/change_username" method="POST">
                 <div>
-                    <label for="current-password"><b>Current Password</b></label>
-                    <input type="text" placeholder="Enter Current Password" name="current-password" required>
+                    <label for="new-username"><b>New Username</b></label>
+                    <input type="text" placeholder="Enter New Username" name="new-username" required>
                 </div>
                 <div>
-                    <label for="new-password"><b>New Password</b></label>
-                    <input type="text" placeholder="Enter New Password" name="new-password" required>
-                </div>
-                <div>
-                    <label for="confirm-password"><b>Confirm New Password</b></label>
-                    <input type="text" placeholder="Confirm New Password" name="confirm-password" required>
+                    <label for="confirm-username"><b>Confirm New Username</b></label>
+                    <input type="text" placeholder="Confirm New Username" name="confirm-username" required>
                 </div>
                 <div class = btn-container>
                     <button type="submit" class="btn_submit">Change</button>
                     <button type="cancel" class="btn_cancel">Close</button>
                 </div>
-            </form>          
+            </form>         
         </div>
     </div>
 </body>
