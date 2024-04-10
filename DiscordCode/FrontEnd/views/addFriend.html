@@ -11,9 +11,12 @@
     <form action="/addFriend" method="POST" onsubmit="return validateForm()">
         <label for="friendID">Friend ID:</label>
         <input type="text" id="friendID" name="friendID">
-        <input type="submit" value="Add Friend">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+            <input type="submit" value="Add Friend" style="margin-right: 10px;">
+            <button type="button" onclick="window.location.href='friend_page.ejs';">Back to Friend Page</button>
+        </div>
     </form>
-    <a href="friend_page.ejs">Back to Friend Page</a>
+    
 
     <script>
     // Client-side validation for the form

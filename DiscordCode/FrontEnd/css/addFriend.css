@@ -2,15 +2,16 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #646faa;
+    color: #fff8f8;
 }
 
 h1 {
-    color: #333;
+    color: #fff8f8;
 }
 
 form {
-    background-color: #fff;
+    background-color: #424549;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -43,11 +44,14 @@ input[type="submit"]:hover {
     background-color: #45a049;
 }
 
-a {
-    display: inline-block;
-    margin-top: 20px;
-    text-decoration: none;
-    color: #007bff;
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
 .friend_request_list {
@@ -56,7 +60,7 @@ a {
 }
 
 .friend_request_module {
-    background-color: #fff;
+    background-color: #424549;
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 8px;

@@ -5,6 +5,8 @@
     overflow-y: auto;
     position: fixed;
     padding: 1%;
+    background-color: #424549;
+    color: rgb(255, 250, 241);
 }
 
 .friend_list h2 {
@@ -29,6 +31,8 @@
 
 .friend_list_footer  {
     border: 3px solid grey;
+    background-color: #424549;
+    color:rgb(255, 250, 241);
     position: fixed;
     bottom: 0;
     width: 20%;
@@ -55,6 +59,7 @@
 
 #messageDisplayContainer {
     /* border: 1px solid red; */
+    background-color: #646faa;
     width: 80%;
     height: 100%;
     position: fixed;
