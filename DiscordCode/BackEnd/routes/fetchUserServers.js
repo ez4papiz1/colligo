@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
         console.log('Connected to server');
         const username = req.session.name;
-        User.find({ name: "Jordan" }).then(user => {
+        User.find({ name: username }).then(user => {
             console.log(user);
             if (!user) {
                 return res.status(404).send('User not found');

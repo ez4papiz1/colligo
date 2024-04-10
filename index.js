@@ -80,6 +80,8 @@ const createChannel = require('./DiscordCode/BackEnd/routes/createChannel.js');
 const fetchUserServers = require('./DiscordCode/BackEnd/routes/fetchUserServers.js');
 const accountSettings = require('./DiscordCode/BackEnd/routes/AccountSettings.js');
 const searchResults = require('./DiscordCode/BackEnd/routes/searchResults.js'); 
+const FriendAdd = require('./DiscordCode/BackEnd/routes/FriendAdd.js');
+const friendpage = require('./DiscordCode/BackEnd/routes/friendpage.js');
 
 
 app.use('/createServer', createServer);
@@ -92,6 +94,8 @@ app.use('/serverpage', ServerPage);
 app.use('/fetchUserServers', fetchUserServers);
 app.use('/AccountSettings', accountSettings);
 app.use('/searchResults', searchResults);
+app.use('/FriendAdd', FriendAdd);
+app.use('/friendpage', friendpage);
 
 
  io.use(sharedSession(sessionMiddleware)); 
@@ -139,6 +143,9 @@ io.on ('connection', (socket) => {
           socket.emit('call-error', `User ${calleeEmail} is not online.`);
       }
   }); 
+    socket.on('send-message2', ({ message, name }) => {
+        socket.broadcast.emit('receive-message2', { message, name });
+    });
 });
 server.listen(port, () => {
   console.log(`listening on *:${port}`);
