@@ -12,17 +12,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
     <div class="friend_list">
-        <h2><% user.name %> Friends</h2>
-        <% if (user.friendlist && user.friendlist.length > 0) { %>
-            <% user.friendlist.forEach(function(friend) { %>
-                <div class="friend_list_module" onmouseover="hoverFunction()" onclick="selection()">
-                    <img src="../images/logo.png" alt="avatar"> <!-- Consider dynamic avatars if available -->
-                    <h4><%= friend %></h4> <!-- Displaying friend's name -->
-                </div>
-            <% }) %>
-        <% } else { %>
-            <p>You have no friends added.</p>
-        <% } %>
+        <h2>Your Friends</h2>
+        <!-- Does not account for overflow yet -->
+        <!-- One friend per module -->
+        <div class="friend_list_module" onmouseover="hoverFunction()">
+            <img src="../images/logo.png" alt="avatar">
+            <h4>User 98112432</h4>
+        </div>
+        <div class="friend_list_module" onmouseover="hoverFunction()">
+            <img src="../images/logo.png" alt="avatar">
+            <h4>User 98112432</h4>
+        </div>
     </div>
 
     <div class="friend_list_footer">

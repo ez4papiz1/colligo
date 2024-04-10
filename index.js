@@ -143,27 +143,6 @@ io.on ('connection', (socket) => {
           socket.emit('call-error', `User ${calleeEmail} is not online.`);
       }
   }); 
-    socket.on('send-message2', (message , name) => {
-        socket.broadcast.emit('receive-message2', message );
-    });
-    socket.on('join-voice-call', ({ serverId, signalData, username }) => {
-      socket.join(serverId);
-      socket.to(serverId).emit('user-joined', { signalData, username });
-  
-      // When a new user joins, they need to collect signaling data from all users already in the call
-      socket.to(serverId).emit('request-signal', { username }); // Request existing users to send their signal
-    });
-  
-    // Handle signaling data sent in response to a request
-    socket.on('send-signal', ({ serverId, signalData, username }) => {
-      socket.to(serverId).emit('signal', { signalData, username });
-    });
-    
-// Server-side: Listen for 'request-signal' and notify existing users to provide their signaling data
-    socket.on('request-signal', ({ serverId, username }) => {
-      // The existing users will listen for this and respond with their current signaling data
-      socket.to(serverId).emit('request-signal', { username });
-    });
 });
 server.listen(port, () => {
   console.log(`listening on *:${port}`);

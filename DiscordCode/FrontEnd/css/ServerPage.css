@@ -4,6 +4,7 @@ body, html {
     margin: 0;
     background-color: #7785cc;
     font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 #serverList {
     background-color: 	#424549;
@@ -171,25 +172,7 @@ body, html {
 }
 #FindServerButton {
     position: absolute;
-    bottom: 120px; 
-    left: 0;
-    width: 100%;
-}
-#FindServerButton{
-    background-color: #424549;
-    color: white;
-    border-style: solid;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-#FriendsButton{
-    background-color: #424549;
-    color: white;
-    border-style: solid;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-#FriendsButton {
-    position: absolute;
-    bottom: 190px; 
+    bottom: 100px; 
     left: 0;
     width: 100%;
 }
