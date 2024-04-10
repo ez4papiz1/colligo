@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('./Models/User.model');
+const User = require('./Models/Usermodel');
 
 mongoose.createConnection('mongodb://localhost:27017/colligo');
 

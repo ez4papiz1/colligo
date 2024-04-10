@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const MongoStore = require('connect-mongodb-session')(session);
 const Usermodel = require('./Models/Usermodel');
 const bodyParser = require('body-parser');
 
