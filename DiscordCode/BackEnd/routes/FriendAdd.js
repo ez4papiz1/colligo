@@ -1,50 +1,40 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./Models/Usermodel');
-const FriendRequests = require('./Models/FriendRequests');
-const bodyParser = require('body-parser');
 
-
-mongoose.createConnection('mongodb+srv://artem:testpass@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo');
+mongoose.createConnection('mongodb://localhost:27017/colligo');
 
 
 const router = express.Router();
 
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded());
-
 router.post('/', async (req, res) => {
+    res.render('FriendAdd');
     try {
-        const sendId = req.session.uid;
-        const recId = req.body.friendID; 
-        console.log(req.body);
+        const uid = req.body.uid; 
+        const friendUsername = req.body.friendname; 
+
         // Retrieve the user document from the database
-        const friend = await User.findOne({ uid: recId });
-        console.log(friend);
-        if (!friend) {
+        const user = await User.findById(uid);
+        if (!user) {
             return res.status(404).json({error: 'User not found'});
         }
 
-        //Check if request already send
-        const sent = await FriendRequests.findOne({ sendId: sendId }, {recId: recId});
-        if (sent) {
-            return res.status(404).json({error: 'Request already sent'});
+        // Retrieve the friend's user document by username
+        const friend = await User.findOne({ username: friendUsername });
+        if (!friend) {
+            return res.status(404).json({error: 'Friend not found'});
         }
-        const user = await User.findOne({ uid: sendId });
 
+        // Check if the friend is already in the user's friendlist
         if (user.friendlist.includes(friend.uid)) {
             return res.status(400).json({error: 'Already friend'});
         }
 
         // Add the friend's ID to the user's friendlist and save the update
-        const newReq = new FriendRequests({
-            sendid: sendId,
-            recid: recId,
-            acc: false,
-        });
-        await newReq.save();
-       
-        res.status(200).json({message: 'request sent', fname: friend.name});
+        user.friendlist.push(friend.uid);
+        await user.save();
+
+        res.status(200).json({message: 'friend added', fname: friend.name});
     } catch (err) {
         console.error(err);
         res.status(500).json({error: 'error'});
