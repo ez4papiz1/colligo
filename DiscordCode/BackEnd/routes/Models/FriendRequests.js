@@ -9,9 +9,11 @@ const FriendRequestSchema = new Schema({
         type: Number,
         required: true
     },
-    acc: {
-        type: Boolean,
-        default: false
+    recname: {
+        type: String,
+    },
+    sendname: {
+        type: String,
     },
 });
 
