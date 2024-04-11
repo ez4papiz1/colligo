@@ -105,6 +105,8 @@ const friendpage = require('./DiscordCode/BackEnd/routes/friendpage.js');
 const cancelRequest = require('./DiscordCode/BackEnd/routes/cancelRequest.js');
 const fetchIncomingRequests = require('./DiscordCode/BackEnd/routes/fetchIncomingRequests.js');
 const fetchOutgoingRequests = require('./DiscordCode/BackEnd/routes/fetchOutgoingRequests.js');
+const getUser = require('./DiscordCode/BackEnd/routes/getUser.js');
+const acceptRequest = require('./DiscordCode/BackEnd/routes/acceptRequest.js');
 
 
 app.use('/createServer', createServer);
@@ -123,8 +125,10 @@ app.use('/updatePassword', updatePassword);
 app.use('/FriendAdd', FriendAdd);
 app.use('/friendpage', friendpage);
 app.use('/cancelRequest', cancelRequest);
+app.use('/acceptRequest', acceptRequest);
 app.use('/fetchIncomingRequests', fetchIncomingRequests);
 app.use('/fetchOutgoingRequests', fetchOutgoingRequests);
+app.use('/getUser', getUser);
 
 
 
