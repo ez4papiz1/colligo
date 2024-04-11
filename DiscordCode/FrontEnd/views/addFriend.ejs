@@ -5,18 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Friends</title>
     <link rel="stylesheet" href="../css/addFriend.css">
+    <script src ="JS/addFriend.js"></script>
 </head>
 <body>
     <h1>Add Friends</h1>
-    <form action="/addFriend" method="POST" onsubmit="return validateForm()">
+    <form action="/FriendAdd" method="POST" onsubmit="return validateForm()">
         <label for="friendID">Friend ID:</label>
         <input type="text" id="friendID" name="friendID">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-            <input type="submit" value="Add Friend" style="margin-right: 10px;">
-            <button type="button" onclick="window.location.href='friend_page.ejs';">Back to Friend Page</button>
-        </div>
+        <input type="submit" value="Add Friend">
     </form>
-    
+    <a href="friend_page.ejs">Back to Friend Page</a>
 
     <script>
     // Client-side validation for the form
@@ -29,10 +27,10 @@
             return false;
         }
 
-        if (!/^\d{8}$/.test(friendID)) {
-            alert('Friend ID must be an 8-digit number.');
+        /*if (!/^\d{5}$/.test(friendID)) {
+            alert('Friend ID must be an 5-digit number.');
             return false;
-        }
+        }*/
 
         popUpMessage();
         return true;
@@ -47,33 +45,13 @@
     </script>
 
     <h1>Incoming Requests</h1>
-    <div class="friend_request_list">
-        <div class="friend_request_module" id="incoming">
-            <img src="../images/logo.png" alt="avatar">
-            <h4>User 98112432</h4>
-            <button class="btn btn-primary">Accept</button>
-            <button class="btn btn-danger">Decline</button>
-        </div>
-        <div class="friend_request_module" id="incoming">
-            <img src="../images/logo.png" alt="avatar">
-            <h4>User 98112432</h4>
-            <button class="btn btn-primary">Accept</button>
-            <button class="btn btn-danger">Decline</button>
-        </div>
+    <div class="friend_request_list" id="incomingRequests">
+        <!-- Incoming requests will be displayed here -->
     </div>
 
     <h1>Outgoing Requests</h1>
-    <div class="friend_request_list">
-        <div class="friend_request_module" id="outgoing">
-            <img src="../images/logo.png" alt="avatar">
-            <h4>User 98112432</h4>
-            <button class="btn btn-remove">Remove</button>
-        </div>
-        <div class="friend_request_module" id="outgoing">
-            <img src="../images/logo.png" alt="avatar">
-            <h4>User 98112432</h4>
-            <button class="btn btn-remove">Remove</button>
-        </div>
+    <div class="friend_request_list" id="outgoingRequests">
+        <!-- Outgoing requests will be displayed here -->
     </div>
 </body>
 </html>

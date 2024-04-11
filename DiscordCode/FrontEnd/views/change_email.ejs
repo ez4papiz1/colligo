@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Settings</title>
-    <link rel="stylesheet" href="../css/account_settings.css"> 
+    <link rel="stylesheet" href="../css/account_settings.css">
+    <script src ="JS/account_settings.js"></script>
 </head>
 <body>
-    <header>
-        <h2 id="username-heading">User Settings for <span id="username"><!-- Username will be inserted here --></span></h2>
-    </header>
+    <div id="header">
+        <h4>User Settings</h4>
+    </div>
     <div class="container">
         <div class="button-container">
-            <button class="btn" aria-label="View Account" onclick="window.location.href='account_settings.html'">View Account</button>
-            <button class="btn" id="change-password" onclick="window.location.href='change_password.html'">Change Password</button>
-            <button class="btn" id="change-username" onclick="window.location.href='change_username.html'">Change Username</button>
-            <button class="btn" id="change-email" onclick="window.location.href='change_email.html'">Change Email</button>
+            <button class="btn" id="change-password" onclick="window.location.href='change_password.ejs'">Change Password</button>
+            <button class="btn" id="change-username" onclick="window.location.href='change_username.ejs'">Change Username</button>
+            <button class="btn" id="change-email" onclick="window.location.href='change_email.ejs'">Change Email</button>
         </div>
         <div class="form-container">
-            <form action="/change_email" method="POST">
+            <form action="/updateEmail" method="POST">
                 <div>
                     <label for="new-email"><b>New Email</b></label>
-                    <input type="text" placeholder="Enter New Email" name="new-email" required>
+                    <input type="text" placeholder="Enter New Email" id="new-email" name="new-email" required>
                 </div>
                 <div>
                     <label for="confirm-email"><b>Confirm New Email</b></label>
