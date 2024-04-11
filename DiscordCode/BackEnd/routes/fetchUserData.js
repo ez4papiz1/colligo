@@ -7,7 +7,7 @@ const User = require('./Models/Usermodel')
 
 mongoose.createConnection("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo" , { useNewUrlParser: true, useUnifiedTopology: true })
 const router = express.Router();
-router.get('/user', async (req, res) => {
+router.get('/fetchUserData', async (req, res) => {
     try {
         const userId = req.session.id;
         const user = await User.findById(userId);
