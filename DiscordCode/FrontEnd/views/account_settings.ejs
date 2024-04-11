@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Settings</title>
+    <title>Account Settings</title>
     <link rel="stylesheet" href="../css/account_settings.css">
+    <script src ="JS/account_settings.js"></script>
 </head>
 <body>
-    <header>
-        <h2 id="username-heading">User Settings for <span id="username"><!-- Username will be inserted here --></span></h2>
-    </header>
-    <main class="container">
-        <section class="button-container">
-            <button class="btn" aria-label="View Account" onclick="window.location.href='account_settings.html'">View Account</button>
-            <button class="btn" aria-label="Change password" onclick="window.location.href='change_password.html'">Change Password</button>
-            <button class="btn" aria-label="Change username" onclick="window.location.href='change_username.html'">Change Username</button>
-            <button class="btn" aria-label="Change email" onclick="window.location.href='change_email.html'">Change Email</button>
-        </section>
-        <section class="form-container">
+    <div id="header">
+        <h4>User Settings for <%= username %></h4>
+    </div>
+    <div class="container">
+        <div class="button-container">
+            <button class="btn" id="change-password">Change Password</button>
+            <button class="btn" id="change-username">Change Username</button>
+            <button class="btn" id="change-email">Change Email</button>            
+        </div>
+        <div class="form-container">
+            <!-- Display User Information -->
             <h4>User Information</h4>
-            <!-- User information will be displayed here -->
-        </section>
-    </main>
+            
+        </div>
+    </div>
 </body>
 </html>
