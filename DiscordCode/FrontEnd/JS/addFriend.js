@@ -1,19 +1,54 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    await displayFriendRequests('/incomingRequests', '#incomingRequests');
-    await displayFriendRequests('/outgoingRequests', '#outgoingRequests');
+    const user = await getUser();
+    await displayIncomingRequests('/fetchIncomingRequests', '#incomingRequests', user.uid);
+    await displayOutgoingRequests('/fetchOutgoingRequests', '#outgoingRequests', user.uid);
 });
 
-async function displayFriendRequests(endpoint, containerId) {
+async function getUser() {
+    try {
+        const response = await fetch('/getUser');
+        if (response.ok) {
+            return await response.json();
+        } else {
+            throw new Error('Error fetching current user');
+        }
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+async function displayIncomingRequests(endpoint, containerId, uid) {
     try {
         const response = await fetch(endpoint);
         if (response.ok) {
             const data = await response.json();
             const container = document.querySelector(containerId);
-            container.innerHTML = ''; // Clear the container before appending new requests
-            data.forEach(request => {
-                const requestElement = createRequestElement(request);
-                container.appendChild(requestElement);
-            });
+            if (Array.isArray(data.incomingRequests)) {
+                data.incomingRequests.forEach(request => {
+                    const requestElement = createRequestElement(request, uid);
+                    container.appendChild(requestElement);
+                });
+            }
+        } else {
+            console.error(`Error fetching ${endpoint}`);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+async function displayOutgoingRequests(endpoint, containerId, uid) {
+    try {
+        const response = await fetch(endpoint);
+        if (response.ok) {
+            const data = await response.json();
+            const container = document.querySelector(containerId);
+            if (Array.isArray(data.outgoingRequests)) {
+                data.outgoingRequests.forEach(request => {
+                    const requestElement = createRequestElement(request, uid);
+                    container.appendChild(requestElement);
+                });
+            }
         } else {
             console.error(`Error fetching ${endpoint}`);
         }
@@ -22,15 +57,14 @@ async function displayFriendRequests(endpoint, containerId) {
     }
 }
 
-function createRequestElement(request) {
+
+function createRequestElement(request, uid) {
     const requestModule = document.createElement('div');
     requestModule.classList.add('friend_request_module');
-
     const usernameHeader = document.createElement('h4');
-    usernameHeader.textContent = `User ${request.recid}`;
+    usernameHeader.textContent = `${request.sendname}`;
     requestModule.appendChild(usernameHeader);
-
-    if (request.accepted === false) {
+    if (request.recid == uid) {
         const acceptButton = document.createElement('button');
         acceptButton.classList.add('btn', 'btn-primary');
         acceptButton.textContent = 'Accept';
@@ -54,6 +88,7 @@ function createRequestElement(request) {
 }
 
 async function handleAcceptRequest(recid, sendid) {
+    console.log(`Accepting request: recid=${recid}, sendid=${sendid}`);
     try {
         const response = await fetch('/acceptRequest', {
             method: 'POST',
@@ -63,7 +98,7 @@ async function handleAcceptRequest(recid, sendid) {
             body: JSON.stringify({ recid, sendid })
         });
         if (response.ok) {
-            window.location.reload();
+            console.log(response);
         } else {
             console.error('Error accepting request');
         }
@@ -73,25 +108,7 @@ async function handleAcceptRequest(recid, sendid) {
 }
 
 async function handleDeclineRequest(recid, sendid) {
-    try {
-        const response = await fetch('/declineRequest', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ recid, sendid })
-        });
-        if (response.ok) {
-            window.location.reload();
-        } else {
-            console.error('Error declining request');
-        }
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-async function handleRemoveRequest(recid, sendid) {
+    console.log(`Declining request: recid=${recid}, sendid=${sendid}`);
     try {
         const response = await fetch('/cancelRequest', {
             method: 'POST',
@@ -101,7 +118,29 @@ async function handleRemoveRequest(recid, sendid) {
             body: JSON.stringify({ recid, sendid })
         });
         if (response.ok) {
+            console.log(response);
+        } else {
+            console.error('Error declining request');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function handleRemoveRequest(recid, sendid) {
+    console.log(`Removing request: recid=${recid}, sendid=${sendid}`);
+    try {
+        const response = await fetch('/cancelRequest', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ recid, sendid })
+        }).then(() => {
             window.location.reload();
+        })
+        if (response.ok) {
+            console.log(response);
         } else {
             console.error('Error removing request');
         }
@@ -109,3 +148,4 @@ async function handleRemoveRequest(recid, sendid) {
         console.error(error);
     }
 }
+
