@@ -1,21 +1,12 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser  = require('body-parser');
-const Server = require('./Models/ServerData')
-const User = require('./Models/Usermodel')
+const join = document.querySelectorAll('.btn-join');
 
-
-mongoose.connect("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo" , { useNewUrlParser: true, useUnifiedTopology: true })
-const router = express.Router();
-router.get('/', (req, res) => {
-    //fetch serverName from query params
-    const serverName = req.query.serverName;
-    Server.find({ name: serverName }).then(servers => {
-        //render searchResults page with server data
-        res.render('searchResults', { servers });
-    }).catch(error => {
-        console.error('Error fetching server data:', error);
-        res.status(500).send('An error occurred');
+join.forEach(button => {
+    button.addEventListener('click', () => {
+        // Get the server name from the parent element
+        const serverName = button.parentElement.textContent.trim();
+        
+        // Redirect to the server page or perform other actions
+        // For example, you can redirect to the server page with serverName in the URL
+        window.location.href = `/server/${serverName}`;
     });
 });
-module.exports = router; 
