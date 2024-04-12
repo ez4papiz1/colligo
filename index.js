@@ -86,6 +86,10 @@ app.get('/changeUsername', (req, res) => {
 app.get('/addFriend', (req, res) => {
   res.render('addFriend');
 });
+app.get('/searchResults', (req, res) => {
+  res.render('SearchResults');
+});
+
 
 const login = require('./DiscordCode/BackEnd/routes/login.js');
 const signup = require('./DiscordCode/BackEnd/routes/signup.js');
@@ -95,7 +99,7 @@ const displayServer = require('./DiscordCode/BackEnd/routes/displayServer.js');
 const createServer = require('./DiscordCode/BackEnd/routes/createServer.js');
 const createChannel = require('./DiscordCode/BackEnd/routes/createChannel.js');
 const fetchUserServers = require('./DiscordCode/BackEnd/routes/fetchUserServers.js');
-const searchResults = require('./DiscordCode/BackEnd/routes/searchResults.js');
+const findServers = require('./DiscordCode/BackEnd/routes/findServers.js');
 const fetchUserData = require('./DiscordCode/BackEnd/routes/fetchUserData.js');
 const updateUsername = require('./DiscordCode/BackEnd/routes/updateUsername.js');
 const updateEmail = require('./DiscordCode/BackEnd/routes/updateEmail.js');
@@ -107,6 +111,7 @@ const fetchIncomingRequests = require('./DiscordCode/BackEnd/routes/fetchIncomin
 const fetchOutgoingRequests = require('./DiscordCode/BackEnd/routes/fetchOutgoingRequests.js');
 const getUser = require('./DiscordCode/BackEnd/routes/getUser.js');
 const acceptRequest = require('./DiscordCode/BackEnd/routes/acceptRequest.js');
+const joinServer = require('./DiscordCode/BackEnd/routes/joinServer.js');
 
 
 app.use('/createServer', createServer);
@@ -117,7 +122,7 @@ app.use('/signup', signup);
 app.use('/login', login);
 app.use('/serverpage', ServerPage);
 app.use('/fetchUserServers', fetchUserServers);
-app.use('/searchResults', searchResults);
+app.use('/findServers', findServers);
 app.use('/fetchUserData', fetchUserData);
 app.use('/updateUsername', updateUsername);
 app.use('/updateEmail', updateEmail);
@@ -129,6 +134,7 @@ app.use('/acceptRequest', acceptRequest);
 app.use('/fetchIncomingRequests', fetchIncomingRequests);
 app.use('/fetchOutgoingRequests', fetchOutgoingRequests);
 app.use('/getUser', getUser);
+app.use('/joinServer', joinServer);
 
 
 io.use(sharedSession(sessionMiddleware));
