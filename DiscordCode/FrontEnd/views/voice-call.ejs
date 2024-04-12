@@ -4,10 +4,44 @@
     <title>Voice Call</title>
 </head>
 <body>
-    <h1>Voice Call Room</h1>
+    <h1>Voice Call Room For Server </h1>
     <div id="usersInCall"></div>
     <button id="leaveCallButton">Leave Call</button>
+    
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/scripts/voiceCall.js"></script>
+    <script>
+    const serverId =    '660b196ff1e5954cd22ea264';
+    const username = 'Jordan';
+    const socket = io();
+    const peer = new SimplePeer({ initiator: location.hash === '#init', trickle: false });
+
+    navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+        peer.addStream(stream);
+    });
+
+    peer.on('signal', data => {
+    socket.emit('join-voice-call', { serverId: '660b196ff1e5954cd22ea264' , signalData: data, username: 'Jordan' });
+    });
+
+    socket.on('user-joined', payload => {
+    peer.signal(payload.signalData);
+    });
+    socket.emit('request-signal', { serverId, username });
+    peer.on('stream', stream => {
+        if (payload.serverId === serverId && payload.username !== username) {
+            console.log(`Received signaling data from ${payload.username}`);
+            peer.signal(payload.signalData); // Use the received signaling data to continue the connection process
+        }  
+    });
+    socket.on('request-signal', payload => {
+        if (payload.username !== username) {
+            peer.on('signal', data => {
+            socket.emit('send-signal', { serverId, signalData: data, username });
+            });
+        }
+        });
+    </script>
+    
 </body>
 </html>

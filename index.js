@@ -58,13 +58,13 @@ app.get('/ServerPage', (req, res) => {
 app.get('/VideoCall', (req, res) => {
   res.render('VideoCall');
 });
-app.get('/voice-call', (req, res) => {
-  const { serverId } = req.query; 
-  if (!serverId) {
-      return res.status(400).send('Server ID is required');
-  }
-  res.render('voiceCall', { serverId });
+app.get('/voice-call/:serverId', (req, res) => {
+  const serverId = req.params.serverId; 
+  const username = req.session.name;
+  req.session.save();
+  res.render('voice-call', { serverId, username });
 });
+
 app.get('/searchServer', (req, res) => {
   res.render('SearchPage');
 });
@@ -143,8 +143,26 @@ io.on ('connection', (socket) => {
           socket.emit('call-error', `User ${calleeEmail} is not online.`);
       }
   }); 
-    socket.on('send-message2', ({ message, name }) => {
-        socket.broadcast.emit('receive-message2', { message, name });
+    socket.on('send-message2', (message , name) => {
+        socket.broadcast.emit('receive-message2', message );
+    });
+    socket.on('join-voice-call', ({ serverId, signalData, username }) => {
+      socket.join(serverId);
+      socket.to(serverId).emit('user-joined', { signalData, username });
+  
+      // When a new user joins, they need to collect signaling data from all users already in the call
+      socket.to(serverId).emit('request-signal', { username }); // Request existing users to send their signal
+    });
+  
+    // Handle signaling data sent in response to a request
+    socket.on('send-signal', ({ serverId, signalData, username }) => {
+      socket.to(serverId).emit('signal', { signalData, username });
+    });
+    
+// Server-side: Listen for 'request-signal' and notify existing users to provide their signaling data
+    socket.on('request-signal', ({ serverId, username }) => {
+      // The existing users will listen for this and respond with their current signaling data
+      socket.to(serverId).emit('request-signal', { username });
     });
 });
 server.listen(port, () => {

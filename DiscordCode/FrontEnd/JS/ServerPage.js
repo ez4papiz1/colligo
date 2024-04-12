@@ -96,9 +96,9 @@ document.addEventListener('DOMContentLoaded', function() {
         var socket = io();
         const joinVoiceChannelButton = document.getElementById('joinVoiceChannelButton');
         joinVoiceChannelButton.addEventListener('click', () => {
-            socket.emit('join-voice-channel', { serverId: serverId});
-            window.location.href = `/voice-call?serverId=${serverId}`;
+            window.location.href = `/voice-call/${currentServer}`; 
         });
+
         socket.on('connection', function() {
             console.log('Connected to server');
         });
@@ -156,8 +156,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 const li = document.createElement('li');
                 li.className = 'list-group-item';
                 li.textContent = members[i];
+                const hoverBox = document.createElement('div');
+                hoverBox.className = 'hover-box';
+                const checkBox = document.createElement('input');
+                checkBox.type = 'checkbox';
+                checkBox.id = 'admin' + i; 
+                checkBox.className = 'admin-checkbox';
+                const label = document.createElement('label');
+                label.htmlFor = 'admin' + i;
+                label.textContent = 'Admin';
+                hoverBox.appendChild(checkBox);
+                hoverBox.appendChild(label);
+                li.appendChild(hoverBox);
                 userList.appendChild(li);
             }
         }
+        
     });
 

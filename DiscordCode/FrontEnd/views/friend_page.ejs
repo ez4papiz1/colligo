@@ -15,7 +15,7 @@
         <h2><% user.name %> Friends</h2>
         <% if (user.friendlist && user.friendlist.length > 0) { %>
             <% user.friendlist.forEach(function(friend) { %>
-                <div class="friend_list_module" onmouseover="hoverFunction()">
+                <div class="friend_list_module" onmouseover="hoverFunction()" onclick="selection()">
                     <img src="../images/logo.png" alt="avatar"> <!-- Consider dynamic avatars if available -->
                     <h4><%= friend %></h4> <!-- Displaying friend's name -->
                 </div>
@@ -44,6 +44,12 @@
     </div>
 
     <script>
+        function selection(){
+            clearMessages();
+        }
+        function clearMessages(){
+            document.getElementById('messageDisplayArea').innerHTML = ''; 
+        }
         // Javascript for friend_list_module border to show up upon hover.
         function hoverFunction() {
             var modules = document.getElementsByClassName("friend_list_module");
