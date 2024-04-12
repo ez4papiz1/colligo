@@ -169,30 +169,32 @@ io.on ('connection', (socket) => {
     socket.on('create-room', (data) => {
         socket.join(data.room);
         console.log(`${socket.id} created and joined room: ${data.room}`);
+        io.to(data.room).emit('room-joined', { room: data.room, id: socket.id });
     });
 
     socket.on('join-room', (data) => {
         socket.join(data.room);
         console.log(`${socket.id} joined room: ${data.room}`);
+        socket.to(data.room).emit('room-joined', { room: data.room, id: socket.id });
     });
 
     socket.on('offer', (data) => {
-        console.log(`Offer received from ${socket.id} in room ${data.room}`);
-        socket.to(data.room).emit('offer', data);
+        console.log('Offer received:', data);
+        io.to(data.room).emit('offer', data);
     });
 
     socket.on('answer', (data) => {
-        console.log(`Answer received from ${socket.id} in room ${data.room}`);
-        socket.to(data.room).emit('answer', data);
+        console.log('Answer received:', data);
+        io.to(data.room).emit('answer', data);
     });
 
     socket.on('candidate', (data) => {
-        console.log(`Candidate received from ${socket.id} in room ${data.room}`);
-        socket.to(data.room).emit('candidate', data);
+        console.log('Candidate received:', data);
+        io.to(data.room).emit('candidate', data);
     });
 
     socket.on('disconnect', () => {
-        console.log(`User disconnected: ${socket.id}`);
+        console.log('user disconnected');
     });
 });
 server.listen(port, () => {
