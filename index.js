@@ -143,6 +143,20 @@ io.on ('connection', (socket) => {
           socket.emit('call-error', `User ${calleeEmail} is not online.`);
       }
   }); 
+  socket.on('send-message2', (message , name) => {
+    socket.broadcast.emit('receive-message2', message );
+});
+socket.on('join-voice-call', ({ serverId, signalData, username }) => {
+  socket.join(serverId);
+  socket.to(serverId).emit('user-joined', { signalData, username });
+  socket.to(serverId).emit('request-signal', { username });
+});
+socket.on('send-signal', ({ serverId, signalData, username }) => {
+  socket.to(serverId).emit('signal', { signalData, username });
+});
+socket.on('request-signal', ({ serverId, username }) => {
+  socket.to(serverId).emit('request-signal', { username });
+});
 });
 server.listen(port, () => {
   console.log(`listening on *:${port}`);

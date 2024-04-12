@@ -172,7 +172,25 @@ body, html {
 }
 #FindServerButton {
     position: absolute;
-    bottom: 100px; 
+    bottom: 120px; 
+    left: 0;
+    width: 100%;
+}
+#FindServerButton{
+    background-color: #424549;
+    color: white;
+    border-style: solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#FriendsButton{
+    background-color: #424549;
+    color: white;
+    border-style: solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#FriendsButton {
+    position: absolute;
+    bottom: 190px; 
     left: 0;
     width: 100%;
 }
