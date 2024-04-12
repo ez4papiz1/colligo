@@ -165,16 +165,35 @@ io.on ('connection', (socket) => {
     console.log('Username not found in session.');
     return;
   }
-  console.log(`${username} connected for video calling.`); 
-  socket.on('initiate-call', ({ calleeName }) => {
-    const calleeSocketId = Object.keys(io.sockets.sockets).find(key => io.sockets.sockets[key].handshake.session.name === calleeName);
-    if (calleeSocketId) {
-        io.to(calleeSocketId).emit('incoming-call', { from: username });
-        console.log(`Call initiated from ${username} to ${calleeName}`);
-    } else {
-        socket.emit('call-error', `User ${calleeName} is not online.`);
-    }
-}); 
+
+    socket.on('create-room', (data) => {
+        socket.join(data.room);
+        console.log(`${socket.id} created and joined room: ${data.room}`);
+    });
+
+    socket.on('join-room', (data) => {
+        socket.join(data.room);
+        console.log(`${socket.id} joined room: ${data.room}`);
+    });
+
+    socket.on('offer', (data) => {
+        console.log(`Offer received from ${socket.id} in room ${data.room}`);
+        socket.to(data.room).emit('offer', data);
+    });
+
+    socket.on('answer', (data) => {
+        console.log(`Answer received from ${socket.id} in room ${data.room}`);
+        socket.to(data.room).emit('answer', data);
+    });
+
+    socket.on('candidate', (data) => {
+        console.log(`Candidate received from ${socket.id} in room ${data.room}`);
+        socket.to(data.room).emit('candidate', data);
+    });
+
+    socket.on('disconnect', () => {
+        console.log(`User disconnected: ${socket.id}`);
+    });
 });
 server.listen(port, () => {
   console.log(`listening on *:${port}`);

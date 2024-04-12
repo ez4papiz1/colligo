@@ -61,10 +61,11 @@ async function displayOutgoingRequests(endpoint, containerId, uid) {
 function createRequestElement(request, uid) {
     const requestModule = document.createElement('div');
     requestModule.classList.add('friend_request_module');
-    const usernameHeader = document.createElement('h4');
-    usernameHeader.textContent = `${request.sendname}`;
-    requestModule.appendChild(usernameHeader);
+    
     if (request.recid == uid) {
+        const usernameHeader = document.createElement('h4');
+        usernameHeader.textContent = `${request.sendname}`;
+        requestModule.appendChild(usernameHeader);
         const acceptButton = document.createElement('button');
         acceptButton.classList.add('btn', 'btn-primary');
         acceptButton.textContent = 'Accept';
@@ -77,6 +78,9 @@ function createRequestElement(request, uid) {
         declineButton.addEventListener('click', async () => await handleDeclineRequest(request.recid, request.sendid));
         requestModule.appendChild(declineButton);
     } else {
+        const usernameHeader = document.createElement('h4');
+        usernameHeader.textContent = `${request.recname}`;
+        requestModule.appendChild(usernameHeader);
         const removeButton = document.createElement('button');
         removeButton.classList.add('btn', 'btn-remove');
         removeButton.textContent = 'Remove';
