@@ -56,14 +56,14 @@ app.get('/ServerPage', (req, res) => {
 });
 
 app.get('/VideoCall', (req, res) => {
-  res.render('VideoCall');
+  res.render('videoCall');
 });
 app.get('/voice-call', (req, res) => {
   const { serverId } = req.query; 
   if (!serverId) {
       return res.status(400).send('Server ID is required');
   }
-  res.render('voiceCall', { serverId });
+  res.render('voice-call', { serverId });
 });
 app.get('/searchServer', (req, res) => {
   res.render('SearchPage');
@@ -131,7 +131,6 @@ app.use('/fetchOutgoingRequests', fetchOutgoingRequests);
 app.use('/getUser', getUser);
 
 
-
 io.use(sharedSession(sessionMiddleware));
 
 io.on ('connection', (socket) => {
@@ -140,7 +139,7 @@ io.on ('connection', (socket) => {
         console.log('message: ' + message);
         socket.broadcast.emit('receive-message', message);
         ServerData.findOneAndUpdate(
-          { _id: serverId, 'channels.name': channelName },
+          { sid: serverId, 'channels.name': channelName },
           { $push: { 'channels.$.messages': message } },
           { new: true }
       ).then(updatedServer => {
@@ -153,7 +152,7 @@ io.on ('connection', (socket) => {
     });
     socket.on('channelSelected', ({ serverId, channelName }) => {
       ServerData.findOne({ 
-          '_id': serverId, 
+          'sid': serverId, 
           'channels.name': channelName 
       }, 'channels.$')
       .then(server => {
