@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/SearchResults.css">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mb-3">Search Results</h2>
+        <ul id="list-group" class="list-group">
+            <% servers.forEach(function(server) { %>
+                <li class="list-group-item">
+                    <%= server.name %>
+                    <button class="btn btn-join" onclick="joinServer('<%= server.sid %>')">Join</button>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+</body>
+<script>
+    async function joinServer(serverId) {
+        setTimeout(() => {
+            window.location.href = '/ServerPage';
+        }, 1000);
+        try {
+            const response = await fetch(`/joinServer`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ serverId })
+            });
+
+            if (response.ok) {
+                console.log('Successfully joined the server');
+            } else {
+                console.error('Failed to join the server');
+            }
+        } catch (error) {
+            console.error('Error joining server:', error);
+        }
+    }
+</script>
+
+</html>
