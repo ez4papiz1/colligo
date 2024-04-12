@@ -1,14 +1,15 @@
 
 document.addEventListener('DOMContentLoaded', function() {
         fetchServersAndGenerateButtons();
+        let sid;
         var username = document.getElementById('userProfileButton').textContent;
         var modal = document.getElementById('createServerModal');
         var btn = document.getElementById('createServerButton');
-        var span = document.getElementsByClassName("close")[0];
+        var spanServer = document.getElementsByClassName("close")[0];
         btn.onclick = function() {
             modal.style.display = "block";
         }
-        span.onclick = function() {
+        spanServer.onclick = function() {
             modal.style.display = "none";
         }
         window.onclick = function(event) {
@@ -16,20 +17,60 @@ document.addEventListener('DOMContentLoaded', function() {
                 modal.style.display = "none";
             }
         }
+        const createServerForm = document.getElementById('createServerForm');
+        createServerForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+            const serverName = document.getElementById('serverNameInput').value;  
+            fetch(`/createServer?serverName=${serverName}`).then(response => {
+                if (response.ok) {
+                    console.log("Server created")
+                } else {
+                    console.log("Server not created")
+                }
+                })
+                .catch(error => {
+                    console.error('Error creating server:', error);
+                });
+        });
+
+        const createChannelForm = document.getElementById('createChannelForm');
+        createChannelForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            event.preventDefault();
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+            const serverName = document.getElementById('serverNameInput1').value;
+            const channelName = document.getElementById('channelNameInput').value;
+            fetch(`/createChannel?serverName=${serverName}&channelName=${channelName}`).then(response => {
+                if (response.ok) {
+                    console.log("Channel created")
+                } else {
+                    console.log("Channel not created")
+                }
+                })
+                .catch(error => {
+                    console.error('Error creating channel:', error);
+                });
+        });
+        
         var chanmodal = document.getElementById('createChannelModal');
         var chanbtn = document.getElementById('createChannelButton');
-        var span = document.getElementsByClassName("close")[0];
+        var chanspan = document.getElementsByClassName("close")[1];
         chanbtn.onclick = function() {
             chanmodal.style.display = "block";
-        }
-        span.onclick = function() {
+        };
+        chanspan.onclick = function() {
             chanmodal.style.display = "none";
-        }
+        };
         window.onclick = function(event) {
             if (event.target == chanmodal) {
                 chanmodal.style.display = "none";
             }
-        } 
+        };
         const userProfileButton = document.getElementById('userProfileButton');
         userProfileButton.addEventListener('click', function() {
             window.location.href = '/AccountSettings';
@@ -57,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         listItem.className = 'list-group-item py-2';
                         listItem.textContent = server.name; 
                         listItem.onclick = () => {
-                            selectServer(server._id); 
+                            selectServer(server.sid); 
                         };
                         serverList.appendChild(listItem); 
                     });
@@ -76,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentServer = serverId; 
             currentChannel = ''; 
             clearMessages();
+            sid = serverId;
             fetchData(serverId);
         }
         function fetchData(serverId) {
@@ -96,8 +138,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var socket = io();
         const joinVoiceChannelButton = document.getElementById('joinVoiceChannelButton');
         joinVoiceChannelButton.addEventListener('click', () => {
-            socket.emit('join-voice-channel', { serverId: serverId});
-            window.location.href = `/voice-call?serverId=${serverId}`;
+            socket.emit('join-voice-channel', { serverId: sid});
+            window.location.href = `/voice-call?serverId=${sid}`;
         });
         socket.on('connection', function() {
             console.log('Connected to server');
@@ -123,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
             messageElement.innerHTML = `<strong>${user}</strong>: ${message}`;
             messageList.appendChild(messageElement);
         }
+
         function displayChannels(channels) {
             const channelList = document.querySelector('#channelList .list-group');
             channelList.innerHTML = '';
@@ -135,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentChannel = this.getAttribute('data-channel-name');
                     clearMessages();
                     console.log('Selected channel:', currentChannel);
-                    socket.emit('channelSelected', { serverId: currentServer, channelName: currentChannel });
+                    socket.emit('channelSelected', { serverId: sid, channelName: currentChannel });
                 });
                 channelList.appendChild(li);
             }
@@ -148,6 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             socket.emit('send-message', { message: messageInput.value, channelName: currentChannel, serverId: currentServer });
             displayMessage(messageInput.value, username);
+            messageInput.value = '';
         });
         function displayMembers(members) {
             const userList = document.getElementById('userList');

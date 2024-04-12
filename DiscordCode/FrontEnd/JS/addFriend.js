@@ -88,6 +88,9 @@ function createRequestElement(request, uid) {
 }
 
 async function handleAcceptRequest(recid, sendid) {
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
     console.log(`Accepting request: recid=${recid}, sendid=${sendid}`);
     try {
         const response = await fetch('/acceptRequest', {
@@ -108,6 +111,9 @@ async function handleAcceptRequest(recid, sendid) {
 }
 
 async function handleDeclineRequest(recid, sendid) {
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
     console.log(`Declining request: recid=${recid}, sendid=${sendid}`);
     try {
         const response = await fetch('/cancelRequest', {
@@ -128,6 +134,9 @@ async function handleDeclineRequest(recid, sendid) {
 }
 
 async function handleRemoveRequest(recid, sendid) {
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
     console.log(`Removing request: recid=${recid}, sendid=${sendid}`);
     try {
         const response = await fetch('/cancelRequest', {
