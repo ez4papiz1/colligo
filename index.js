@@ -9,30 +9,30 @@ const { Server } =  require('socket.io');
 const io = new Server(server);
 const cors = require('cors');
 const ServerData = require('./DiscordCode/BackEnd/routes/Models/ServerData');
-mongoose.createConnection("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo" , { useNewUrlParser: true, useUnifiedTopology: true })
+const Usermodel = require('./DiscordCode/BackEnd/routes/Models/Usermodel');
+mongoose.createConnection("mongodb+srv://artem:testpass@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo" , { useNewUrlParser: true, useUnifiedTopology: true })
 
 const session = require('express-session');
 const sharedSession = require('express-socket.io-session');
-const userSessions = {}; //mapping of socket ID to user session */
+const userSessions = {}; //mapping of socket ID to user session
 
 app.use(cors());
 
 // Session setup
- const sessionMiddleware = session({
+const sessionMiddleware = session({
   secret: 'secretkey',
   resave: true,
   saveUninitialized: true,
-}); 
+});
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.set('views', './DiscordCode/FrontEnd/views');
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/DiscordCode/FrontEnd/'));
-app.use(sessionMiddleware); 
+app.use(sessionMiddleware);
 
 // Share session with io
-io.use(sharedSession(sessionMiddleware)); 
+io.use(sharedSession(sessionMiddleware));
 
 
 
@@ -69,6 +69,23 @@ app.get('/searchServer', (req, res) => {
   res.render('SearchPage');
 });
 
+app.get('/AccountSettings', (req, res) => {
+  res.render('account_settings');
+});
+app.get('/changePassword', (req, res) => {
+  res.render('change_password');
+
+});
+app.get('/changeEmail', (req, res) => {
+  res.render('change_email');
+
+});
+app.get('/changeUsername', (req, res) => {
+  res.render('change_username');
+});
+app.get('/addFriend', (req, res) => {
+  res.render('addFriend');
+});
 
 const login = require('./DiscordCode/BackEnd/routes/login.js');
 const signup = require('./DiscordCode/BackEnd/routes/signup.js');
@@ -78,10 +95,18 @@ const displayServer = require('./DiscordCode/BackEnd/routes/displayServer.js');
 const createServer = require('./DiscordCode/BackEnd/routes/createServer.js');
 const createChannel = require('./DiscordCode/BackEnd/routes/createChannel.js');
 const fetchUserServers = require('./DiscordCode/BackEnd/routes/fetchUserServers.js');
-const accountSettings = require('./DiscordCode/BackEnd/routes/AccountSettings.js');
-const searchResults = require('./DiscordCode/BackEnd/routes/searchResults.js'); 
+const searchResults = require('./DiscordCode/BackEnd/routes/searchResults.js');
+const fetchUserData = require('./DiscordCode/BackEnd/routes/fetchUserData.js');
+const updateUsername = require('./DiscordCode/BackEnd/routes/updateUsername.js');
+const updateEmail = require('./DiscordCode/BackEnd/routes/updateEmail.js');
+const updatePassword = require('./DiscordCode/BackEnd/routes/updatePassword.js');
 const FriendAdd = require('./DiscordCode/BackEnd/routes/FriendAdd.js');
 const friendpage = require('./DiscordCode/BackEnd/routes/friendpage.js');
+const cancelRequest = require('./DiscordCode/BackEnd/routes/cancelRequest.js');
+const fetchIncomingRequests = require('./DiscordCode/BackEnd/routes/fetchIncomingRequests.js');
+const fetchOutgoingRequests = require('./DiscordCode/BackEnd/routes/fetchOutgoingRequests.js');
+const getUser = require('./DiscordCode/BackEnd/routes/getUser.js');
+const acceptRequest = require('./DiscordCode/BackEnd/routes/acceptRequest.js');
 
 
 app.use('/createServer', createServer);
@@ -92,13 +117,22 @@ app.use('/signup', signup);
 app.use('/login', login);
 app.use('/serverpage', ServerPage);
 app.use('/fetchUserServers', fetchUserServers);
-app.use('/AccountSettings', accountSettings);
 app.use('/searchResults', searchResults);
+app.use('/fetchUserData', fetchUserData);
+app.use('/updateUsername', updateUsername);
+app.use('/updateEmail', updateEmail);
+app.use('/updatePassword', updatePassword);
 app.use('/FriendAdd', FriendAdd);
 app.use('/friendpage', friendpage);
+app.use('/cancelRequest', cancelRequest);
+app.use('/acceptRequest', acceptRequest);
+app.use('/fetchIncomingRequests', fetchIncomingRequests);
+app.use('/fetchOutgoingRequests', fetchOutgoingRequests);
+app.use('/getUser', getUser);
 
 
- io.use(sharedSession(sessionMiddleware)); 
+
+io.use(sharedSession(sessionMiddleware));
 
 io.on ('connection', (socket) => {
     console.log('a user connected');
@@ -124,28 +158,24 @@ io.on ('connection', (socket) => {
       }, 'channels.$')
       .then(server => {
           const messages = server.channels[0].messages;
-          console.log(messages);
           socket.emit('channelMessages', messages); 
       }).catch(err => console.log(err));
   });
-  const userEmail = socket.handshake.session.email;
-  if (!userEmail) {
-      console.log('User email not found in session.');
-      return;
-  } 
-   console.log(`${userEmail} connected for video calling.`); 
-   socket.on('initiate-call', ({ calleeEmail }) => {
-      const calleeSocketId = Object.keys(io.sockets.sockets).find(key => io.sockets.sockets[key].handshake.session.email === calleeEmail);
-      if (calleeSocketId) {
-          io.to(calleeSocketId).emit('incoming-call', { from: userEmail });
-          console.log(`Call initiated from ${userEmail} to ${calleeEmail}`);
-      } else {
-          socket.emit('call-error', `User ${calleeEmail} is not online.`);
-      }
-  }); 
-    socket.on('send-message2', ({ message, name }) => {
-        socket.broadcast.emit('receive-message2', { message, name });
-    });
+  const username = socket.handshake.session.name;
+  if (!username) {
+    console.log('Username not found in session.');
+    return;
+  }
+  console.log(`${username} connected for video calling.`); 
+  socket.on('initiate-call', ({ calleeName }) => {
+    const calleeSocketId = Object.keys(io.sockets.sockets).find(key => io.sockets.sockets[key].handshake.session.name === calleeName);
+    if (calleeSocketId) {
+        io.to(calleeSocketId).emit('incoming-call', { from: username });
+        console.log(`Call initiated from ${username} to ${calleeName}`);
+    } else {
+        socket.emit('call-error', `User ${calleeName} is not online.`);
+    }
+}); 
 });
 server.listen(port, () => {
   console.log(`listening on *:${port}`);
