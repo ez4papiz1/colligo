@@ -8,9 +8,13 @@ const server = http.createServer(app);
 const { Server } =  require('socket.io');
 const io = new Server(server);
 const cors = require('cors');
+const { ExpressPeerServer } = require('peer');
+const peerServer = ExpressPeerServer(server, {
+debug: true,
+});
 const ServerData = require('./DiscordCode/BackEnd/routes/Models/ServerData');
 const Usermodel = require('./DiscordCode/BackEnd/routes/Models/Usermodel');
-mongoose.createConnection("mongodb+srv://artem:testpass@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo" , { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.createConnection("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo", { useNewUrlParser: true, useUnifiedTopology: true });
 
 const session = require('express-session');
 const sharedSession = require('express-socket.io-session');
@@ -24,7 +28,7 @@ const sessionMiddleware = session({
   resave: true,
   saveUninitialized: true,
 });
-
+app.use('/peerjs', peerServer);
 app.use(express.json());
 app.set('views', './DiscordCode/FrontEnd/views');
 app.set('view engine', 'ejs');
@@ -179,32 +183,16 @@ io.on ('connection', (socket) => {
   socket.on('send-message2', (message , name) => {
     socket.broadcast.emit('receive-message2', message );
 });
-socket.on('join-voice-call', ({ serverId, signalData, username }) => {
-  socket.join(serverId);
-  socket.to(serverId).emit('user-joined', { signalData, username });
-  socket.to(serverId).emit('request-signal', { username });
-});
-socket.on('send-signal', ({ serverId, signalData, username }) => {
-  socket.to(serverId).emit('signal', { signalData, username });
-});
-socket.on('request-signal', ({ serverId, username }) => {
-  socket.to(serverId).emit('request-signal', { username });
-});
-  const username = socket.handshake.session.name;
-  if (!username) {
-    console.log('Username not found in session.');
-    return;
-  }
-  console.log(`${username} connected for video calling.`); 
-  socket.on('initiate-call', ({ calleeName }) => {
-    const calleeSocketId = Object.keys(io.sockets.sockets).find(key => io.sockets.sockets[key].handshake.session.name === calleeName);
-    if (calleeSocketId) {
-        io.to(calleeSocketId).emit('incoming-call', { from: username });
-        console.log(`Call initiated from ${username} to ${calleeName}`);
-    } else {
-        socket.emit('call-error', `User ${calleeName} is not online.`);
-    }
-}); 
+  socket.on('join-room', (roomID, userID) => {
+    console.log(`User ${userID} joined room ${roomID}`);
+    socket.join(roomID);
+    socket.to(roomID).emit('user-connected', userID);
+
+    socket.on('disconnect', () => {
+      console.log(`User ${userID} disconnected from room ${roomID}`);
+        socket.to(roomID).emit('user-disconnected', userID);
+    });
+  });
 });
 server.listen(port, () => {
   console.log(`listening on *:${port}`);

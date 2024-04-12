@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Connected to server');
         });
         socket.on('receive-message', (message) => {
-            displayMessage(message, 'OtherUser');
+            displayMessage(message, 'artem');
         });
         const messageForm = document.getElementById('messageForm');
         const messageInput = document.getElementById('messageInput');

@@ -2,44 +2,107 @@
 <html>
 <head>
     <title>Voice Call</title>
+    <style>
+    body{
+        background-color: #7785cc;
+        color: white;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+    }
+    h1{
+        color: #424549;
+        text-align: center;
+        margin-top: 50px;
+        font-size : 50px;
+        padding: 30px;
+        background-color: white;
+        margin-right: 200px;
+        margin-left: 200px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+    #leaveCallButton{
+        display: block;
+        margin: 0 auto;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #f44336;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+    #usersInCall{
+        text-align: center;
+        margin-top: 20px;
+    }
+    </style>
 </head>
 <body>
-    <h1>Voice Call Room For Server </h1>
-    <div id="usersInCall"></div>
+    <h1>Voice Call Channel</h1>
+    <div id="usersInCall">
+        <h2>Users in Call:</h2>
+        <div class="videos_group">
+            <div id="video-grid">
+    
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="serverId" value="<%= serverId %>">
+    <input type="hidden" id="userId" value="<%= username%>">
+    <p><%= username%></p>
     <button id="leaveCallButton">Leave Call</button>
     
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <script>
-    const serverId =    '660b196ff1e5954cd22ea264';
-    const username = 'Jordan';
+    const userId = document.getElementById('userId').value;
+    console.log(userId);
+    const serverId = document.getElementById('serverId').value;
+    console.log(serverId);
     const socket = io();
-    const peer = new SimplePeer({ initiator: location.hash === '#init', trickle: false });
-
-    navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(stream => {
-        peer.addStream(stream);
-    });
-
-    peer.on('signal', data => {
-    socket.emit('join-voice-call', { serverId: '660b196ff1e5954cd22ea264' , signalData: data, username: 'Jordan' });
-    });
-
-    socket.on('user-joined', payload => {
-    peer.signal(payload.signalData);
-    });
-    socket.emit('request-signal', { serverId, username });
-    peer.on('stream', stream => {
-        if (payload.serverId === serverId && payload.username !== username) {
-            console.log(`Received signaling data from ${payload.username}`);
-            peer.signal(payload.signalData); // Use the received signaling data to continue the connection process
-        }  
-    });
-    socket.on('request-signal', payload => {
-        if (payload.username !== username) {
-            peer.on('signal', data => {
-            socket.emit('send-signal', { serverId, signalData: data, username });
+        const peer = new Peer(undefined, {
+            path: '/peerjs',
+            host: '/',
+            port: '3000'
+        });
+        navigator.mediaDevices.getUserMedia({
+            video: false,
+            audio: true
+        }).then(stream => {
+            peer.on('open', id => {
+                socket.emit('join-room', serverId, userId);
             });
-        }
+
+            // Receiving a call
+            peer.on('call', call => {
+                call.answer(stream); // Answer the call with an A/V stream.
+                call.on('stream', userAudioStream => {
+                    // Play the audio stream
+                    const audio = document.createElement('audio');
+                    audio.srcObject = userAudioStream;
+                    audio.play();
+                });
+            });
+
+            // When a new user connects
+            socket.on('user-connected', userID => {
+                const call = peer.call(userID, stream);
+                call.on('stream', userAudioStream => {
+                    // Play the audio stream
+                    const audio = document.createElement('audio');
+                    audio.srcObject = userAudioStream;
+                    audio.play();
+                });
+            });
+
+            socket.on('user-disconnected', userID => {
+                console.log(userID + ' disconnected');
+                // Handle user disconnection
+            });
+        }).catch(err => {
+            console.error('Failed to get local stream', err);
         });
     </script>
     
