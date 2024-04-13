@@ -20,6 +20,7 @@ router.get('/', async (req, res) => {
             sid: Math.floor(100000 + Math.random() * 900000),
             name: req.query.serverName,
             members: [user],
+            admins: [user.name],
             channels: [],
         });
 
