@@ -8,9 +8,15 @@ const server = http.createServer(app);
 const { Server } =  require('socket.io');
 const io = new Server(server);
 const cors = require('cors');
+const { ExpressPeerServer } = require('peer');
+const peerServer = ExpressPeerServer(server, {
+debug: true,
+});
 const ServerData = require('./DiscordCode/BackEnd/routes/Models/ServerData');
 const Usermodel = require('./DiscordCode/BackEnd/routes/Models/Usermodel');
-mongoose.createConnection("mongodb+srv://artem:testpass@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo" , { useNewUrlParser: true, useUnifiedTopology: true })
+
+mongoose.createConnection("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo", { useNewUrlParser: true, useUnifiedTopology: true });
+
 
 const session = require('express-session');
 const sharedSession = require('express-socket.io-session');
@@ -25,6 +31,7 @@ const sessionMiddleware = session({
   saveUninitialized: true,
 });
 
+app.use('/peerjs', peerServer);
 app.use(express.json());
 app.set('views', './DiscordCode/FrontEnd/views');
 app.set('view engine', 'ejs');
@@ -58,13 +65,14 @@ app.get('/ServerPage', (req, res) => {
 app.get('/VideoCall', (req, res) => {
   res.render('videoCall');
 });
-app.get('/voice-call', (req, res) => {
-  const { serverId } = req.query; 
-  if (!serverId) {
-      return res.status(400).send('Server ID is required');
-  }
-  res.render('voice-call', { serverId });
+app.get('/voice-call/:serverId', (req, res) => {
+  const serverId = req.params.serverId; 
+  const username = req.session.name;
+  req.session.save();
+  res.render('voice-call', { serverId, username });
+
 });
+
 app.get('/searchServer', (req, res) => {
   res.render('SearchPage');
 });
@@ -134,7 +142,9 @@ app.use('/acceptRequest', acceptRequest);
 app.use('/fetchIncomingRequests', fetchIncomingRequests);
 app.use('/fetchOutgoingRequests', fetchOutgoingRequests);
 app.use('/getUser', getUser);
+
 app.use('/joinServer', joinServer);
+
 
 
 io.use(sharedSession(sessionMiddleware));
@@ -165,6 +175,9 @@ io.on ('connection', (socket) => {
           const messages = server.channels[0].messages;
           socket.emit('channelMessages', messages); 
       }).catch(err => console.log(err));
+  });
+  socket.on('send-message2', (message , name) => {
+    socket.broadcast.emit('receive-message2', message );
   });
   const username = socket.handshake.session.name;
   if (!username) {

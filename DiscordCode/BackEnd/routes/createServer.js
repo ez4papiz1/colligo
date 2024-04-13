@@ -13,31 +13,39 @@ router.get('/', async (req, res) => {
     }
     const username = req.session.name;
 
-    try {
-        const user = await User.findOne({ name: username });
+    req.session.save();
+    res.writeHead(200, {'Content-Type': 'text/html'}); 
+    res.write('<!DOCTYPE html>');
+    res.write('<html>');
+    res.write('<head>');
+    res.write('<title>Server Creation</title>');
+    res.write('</head>');
+    res.write('<body>');
+    res.write('<h1>Server Created</h1>');
+    res.write('<p>' + req.query.serverName + '</p>'); 
+    res.write('<p>Server Created</p>');
+    res.write('<a href="/displayServer">Return to server page to see new server</a>'); 
+    res.write('</body>');
+    res.write('</html>');
 
-        const serverData = await ServerData.create({
-            sid: Math.floor(100000 + Math.random() * 900000),
+    User.findOne({ name: username }).then(user => {
+        ServerData.create({
+            sid: Math.floor(Math.random() * 100),
             name: req.query.serverName,
-            members: [user],
-            admins: [user.name],
-            channels: [],
+            members: [user._id],  
+            channels: [{name: 'General', messages: ['Hello']}],
+        }).then(server => {
+            user.servers.push(server._id);
+            return user.save(); 
         });
+    });
+    
 
-        const server = await serverData.findOne({ name: req.query.serverName });
+    res.end();
 
-        if (server) {
-            user.servers.push(server);
-            await user.save();
-        } else {
-            return res.status(404).send("Server not found");
-        }
 
-        res.json(server);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal Server Error");
-    }
+   
+
 });
 
 module.exports = router;

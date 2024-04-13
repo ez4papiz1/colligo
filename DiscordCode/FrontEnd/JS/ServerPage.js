@@ -153,11 +153,12 @@ document.addEventListener('DOMContentLoaded', function() {
             socket.emit('join-voice-channel', { serverId: sid});
             window.location.href = `/voice-call?serverId=${sid}`;
         });
+
         socket.on('connection', function() {
             console.log('Connected to server');
         });
         socket.on('receive-message', (message) => {
-            displayMessage(message, 'OtherUser');
+            displayMessage(message, 'artem');
         });
         const messageForm = document.getElementById('messageForm');
         const messageInput = document.getElementById('messageInput');
@@ -212,8 +213,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 const li = document.createElement('li');
                 li.className = 'list-group-item';
                 li.textContent = members[i];
+                const hoverBox = document.createElement('div');
+                hoverBox.className = 'hover-box';
+                const checkBox = document.createElement('input');
+                checkBox.type = 'checkbox';
+                checkBox.id = 'admin' + i; 
+                checkBox.className = 'admin-checkbox';
+                const label = document.createElement('label');
+                label.htmlFor = 'admin' + i;
+                label.textContent = 'Admin';
+                hoverBox.appendChild(checkBox);
+                hoverBox.appendChild(label);
+                li.appendChild(hoverBox);
                 userList.appendChild(li);
             }
         }
+        
     });
 

@@ -2,12 +2,109 @@
 <html>
 <head>
     <title>Voice Call</title>
+    <style>
+    body{
+        background-color: #7785cc;
+        color: white;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+    }
+    h1{
+        color: #424549;
+        text-align: center;
+        margin-top: 50px;
+        font-size : 50px;
+        padding: 30px;
+        background-color: white;
+        margin-right: 200px;
+        margin-left: 200px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+    #leaveCallButton{
+        display: block;
+        margin: 0 auto;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #f44336;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+    #usersInCall{
+        text-align: center;
+        margin-top: 20px;
+    }
+    p{
+        text-align: center;
+    }
+    </style>
 </head>
 <body>
-    <h1>Voice Call Room</h1>
-    <div id="usersInCall"></div>
+    <h1>Voice Call Channel</h1>
+    <div id="usersInCall">
+        <h2>Users in Call:</h2>
+        <div class="videos_group">
+            <div id="video-grid">
+    
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="serverId" value="<%= serverId %>">
+    <input type="hidden" id="userId" value="<%= username%>">
+    <p><%= username%></p>
     <button id="leaveCallButton">Leave Call</button>
+    
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/scripts/voiceCall.js"></script>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('leaveCallButton').addEventListener('click', () => {
+            window.location.href = '/serverPage';
+        });
+    });
+    const userId = document.getElementById('userId').value;
+    console.log(userId);
+    const serverId = document.getElementById('serverId').value;
+    console.log(serverId);
+    const socket = io();
+        const peer = new Peer(undefined, {
+            path: '/peerjs',
+            host: '/',
+            port: '3000'
+        });
+        navigator.mediaDevices.getUserMedia({
+            video: false,
+            audio: true
+        }).then(stream => {
+            peer.on('open', id => {
+                socket.emit('join-room', serverId, userId);
+            });
+            peer.on('call', call => {
+                call.answer(stream); 
+                call.on('stream', userAudioStream => {
+                    const audio = document.createElement('audio');
+                    audio.srcObject = userAudioStream;
+                    audio.play();
+                });
+            });
+            socket.on('user-connected', userID => {
+                const call = peer.call(userID, stream);
+                call.on('stream', userAudioStream => {
+                    const audio = document.createElement('audio');
+                    audio.srcObject = userAudioStream;
+                    audio.play();
+                });
+            });
+            socket.on('user-disconnected', userID => {
+                console.log(userID + ' disconnected');
+            });
+        }).catch(err => {
+            console.error('Failed to get local stream', err);
+        });
+    </script>
+    
 </body>
 </html>

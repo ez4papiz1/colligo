@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
     <div class="friend_list">
+
         <h2><%= user.name %>'s Friends</h2>
         <% if (user.friendlist && user.friendlist.length > 0) { %>
             <% user.friendlist.forEach(function(friend) { %>
@@ -32,6 +33,12 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="JS/chat.js"></script>
     <script>
+        function selection(){
+            clearMessages();
+        }
+        function clearMessages(){
+            document.getElementById('messageDisplayArea').innerHTML = ''; 
+        }
         // Javascript for friend_list_module border to show up upon hover.
         function hoverFunction() {
             var modules = document.getElementsByClassName("friend_list_module");
