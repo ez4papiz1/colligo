@@ -1,6 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
         fetchServersAndGenerateButtons();
+        var username = document.getElementById('userProfileButton').textContent;
         var modal = document.getElementById('createServerModal');
         var btn = document.getElementById('createServerButton');
         var span = document.getElementsByClassName("close")[0];
@@ -37,6 +38,11 @@ document.addEventListener('DOMContentLoaded', function() {
         findServerButton.addEventListener('click', function() {
             window.location.href = '/searchServer';
         });
+        const FriendButton = document.getElementById('FriendsButton');
+        FriendButton.addEventListener('click', function() {
+            window.location.href = '/friendpage';
+        });
+
         function fetchServersAndGenerateButtons() {
             console.log('Fetching server data...');
             fetch('http://localhost:3000/fetchUserServers') 
@@ -141,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
         messageForm.addEventListener('submit', function(e) {
             e.preventDefault();
             socket.emit('send-message', { message: messageInput.value, channelName: currentChannel, serverId: currentServer });
-            displayMessage(messageInput.value, 'You');
+            displayMessage(messageInput.value, username);
         });
         function displayMembers(members) {
             const userList = document.getElementById('userList');

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Settings</title>
     <link rel="stylesheet" href="../css/account_settings.css"> 
+    <script src ="JS/account_settings.js"></script>
 </head>
 <body>
     <div id="header">
@@ -17,10 +18,10 @@
             <button class="btn" id="change-email" onclick="window.location.href='change_email.html'">Change Email</button>
         </div>
         <div class="form-container">
-            <form action="/change_username" method="POST">
+            <form action="/updateUsername" method="POST">
                 <div>
                     <label for="new-username"><b>New Username</b></label>
-                    <input type="text" placeholder="Enter New Username" name="new-username" required>
+                    <input type="text" placeholder="Enter New Username" id="new-username" name="new-username" required>
                 </div>
                 <div>
                     <label for="confirm-username"><b>Confirm New Username</b></label>

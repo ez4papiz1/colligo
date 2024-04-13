@@ -1,34 +1,51 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const User = require('./Models/Usermodel');
+const MongoStore = require('connect-mongodb-session')(session);
+const Usermodel = require('./Models/Usermodel');
+const bodyParser = require('body-parser');
 
-mongoose.connect("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.createConnection('mongodb+srv://artem:testpass@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo');
+
 
 const router = express.Router();
+
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded());
+
 router.use(session({
-    secret: 'secretkey',
-    resave: false,
-    saveUninitialized: false,
+    secret : 'secretkey',
+    resave : false,
+    saveUninitialized : false,
 }));
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     try {
-        User.findOne({ email: email, password: password }).then(user => {
+        Usermodel.findOne({ email: email, password: password} ).then(function(user) {
+            req.session.uid = user.uid;
             req.session.name = user.name;
+            req.session.email = user.email;
+            req.session.password = user.password;
             req.session.save();
+            console.log(user._id);
             console.log('Login successful');
-            res.redirect('/ServerPage')
+            res.redirect('/ServerPage');
         }).catch(error => {
-            console.error('Error logging in:', error);
-            res.status(500).send('An error occurred');
+            console.error('Wrong username/password:', error);
+            next(error);
         });
     } catch (err) {
-        console.error(err);
-        res.status(500).send('An error occurred');
+        next(err);
     }
+});
+
+router.use((err, req, res, next) => {
+    console.error(err.stack);
+    req.session.status = 'Wrong email/password';
+    res.redirect('/login');
+
 });
 
 module.exports = router;

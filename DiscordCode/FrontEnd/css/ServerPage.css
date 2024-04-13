@@ -8,12 +8,14 @@ body, html {
     background: linear-gradient(to bottom, #7785cc, #3b6cac); /* Gradient background */
     color: #f2f2f2;
     border-right: lightgray 1px solid;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8);
 }
 
 #channelList {
     background: linear-gradient(to bottom, #7785cc, #3b6cac); /* Gradient background */
     color: #f2f2f2;
     border-right: lightgray 1px solid;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8);
 }
 
 #messageList {
@@ -25,6 +27,7 @@ body, html {
     background: linear-gradient(to bottom, #7785cc, #3b6cac); /* Gradient background */
     color: #f2f2f2;
     border-left: lightgray 1px solid;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8);
 }
 
 .list-group-item {
@@ -89,7 +92,97 @@ body, html {
     text-decoration: none;
     cursor: pointer;
 }
-
+#createChannelForm input[type="text"] {
+    background-color: #424549;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#createChannelForm button {
+    background-color: #424549;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#createServerButton{
+    background-color: #424549;
+    color: white;
+    border-style: solid;
+    bottom: 0;
+}
+#userProfileButton{
+    background-color: #424549;
+    color: white;
+    border-style: solid;
+    bottom: 0;
+}
+#joinVoiceChannelButton{
+    background-color: #424549;
+    color: white;
+    border-style: solid;
+    bottom: 0;
+}
+#createChannelButton{
+    background-color: #424549;
+    color: white;
+    border-style: solid;
+    bottom: 0;
+}
+#serverList, #channelList, #userList {
+    transition: background-color 0.3s ease; 
+}
+#serverList, #channelList, #userList {
+    position: relative; 
+    padding-bottom: 150px; 
+}
+#userProfileButton {
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+    width: 100%; 
+}
+#createServerButton {
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    width: 100%;
+}
+#createChannelButton {
+    position: absolute;
+    bottom: 0; 
+    left: 0;
+    width: 100%; 
+}
+#joinVoiceChannelButton {
+    position: absolute;
+    bottom: 50px; 
+    left: 0;
+    width: 100%;
+}
+#FindServerButton {
+    position: absolute;
+    bottom: 120px; 
+    left: 0;
+    width: 100%;
+}
+#FindServerButton{
+    background-color: #424549;
+    color: white;
+    border-style: solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#FriendsButton{
+    background-color: #424549;
+    color: white;
+    border-style: solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#FriendsButton {
+    position: absolute;
+    bottom: 170px; 
+    left: 0;
+    width: 100%;
+}
 .video-call-button {
     display: inline-block;
     padding: 10px 20px;
