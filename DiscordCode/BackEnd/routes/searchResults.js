@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     const serverName = req.query.serverName;
     Server.find({ name: serverName }).then(servers => {
         //render searchResults page with server data
-        res.render('searchResults', { servers });
+        res.json(servers);
     }).catch(error => {
         console.error('Error fetching server data:', error);
         res.status(500).send('An error occurred');
