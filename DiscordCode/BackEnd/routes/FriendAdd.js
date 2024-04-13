@@ -5,7 +5,9 @@ const FriendRequests = require('./Models/FriendRequests');
 const bodyParser = require('body-parser');
 
 
+
 mongoose.createConnection("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo", { useNewUrlParser: true, useUnifiedTopology: true });
+
 
 
 const router = express.Router();

@@ -14,7 +14,9 @@ debug: true,
 });
 const ServerData = require('./DiscordCode/BackEnd/routes/Models/ServerData');
 const Usermodel = require('./DiscordCode/BackEnd/routes/Models/Usermodel');
+
 mongoose.createConnection("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo", { useNewUrlParser: true, useUnifiedTopology: true });
+
 
 const session = require('express-session');
 const sharedSession = require('express-socket.io-session');
@@ -28,6 +30,7 @@ const sessionMiddleware = session({
   resave: true,
   saveUninitialized: true,
 });
+
 app.use('/peerjs', peerServer);
 app.use(express.json());
 app.set('views', './DiscordCode/FrontEnd/views');
@@ -134,8 +137,6 @@ app.use('/fetchIncomingRequests', fetchIncomingRequests);
 app.use('/fetchOutgoingRequests', fetchOutgoingRequests);
 app.use('/getUser', getUser);
 
-
-
 io.use(sharedSession(sessionMiddleware));
 
 io.on ('connection', (socket) => {
@@ -193,6 +194,7 @@ io.on ('connection', (socket) => {
         socket.to(roomID).emit('user-disconnected', userID);
     });
   });
+
 });
 server.listen(port, () => {
   console.log(`listening on *:${port}`);
