@@ -96,14 +96,26 @@ document.addEventListener('DOMContentLoaded', function() {
                     servers.forEach(server => {
                         const listItem = document.createElement('li');
                         listItem.className = 'list-group-item py-2';
-                        listItem.textContent = server.name; 
+                        listItem.textContent = server.name;
                         listItem.onclick = () => {
                             selectServer(server.sid); 
                         };
+                        const isAdmin = server.admins.includes(username);
+                        if (isAdmin) {
+                            console.log("admin")
+                            const adminSettingsButton = document.createElement('button');
+                            adminSettingsButton.textContent = 'Admin Settings';
+                            adminSettingsButton.onclick = () => {
+                            window.location.href = `/adminSettings?serverId=${server.sid}`;
+                        };
+                        listItem.appendChild(adminSettingsButton);
+                    } else {
+                        console.log("not an admin")
+                    }
                         serverList.appendChild(listItem); 
-                    });
+                        });
                 })
-                .catch(error => console.error('Failed to load servers:', error));
+                        .catch(error => console.error('Failed to load servers:', error));
         }
         function clearMessages() {
             const messageDisplayArea = document.getElementById('messageDisplayArea');
