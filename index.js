@@ -63,13 +63,14 @@ app.get('/ServerPage', (req, res) => {
 });
 
 app.get('/VideoCall', (req, res) => {
-  res.render('VideoCall');
+  res.render('videoCall');
 });
 app.get('/voice-call/:serverId', (req, res) => {
   const serverId = req.params.serverId; 
   const username = req.session.name;
   req.session.save();
   res.render('voice-call', { serverId, username });
+
 });
 
 app.get('/searchServer', (req, res) => {
@@ -93,6 +94,10 @@ app.get('/changeUsername', (req, res) => {
 app.get('/addFriend', (req, res) => {
   res.render('addFriend');
 });
+app.get('/searchResults', (req, res) => {
+  res.render('SearchResults');
+});
+
 
 const login = require('./DiscordCode/BackEnd/routes/login.js');
 const signup = require('./DiscordCode/BackEnd/routes/signup.js');
@@ -102,7 +107,7 @@ const displayServer = require('./DiscordCode/BackEnd/routes/displayServer.js');
 const createServer = require('./DiscordCode/BackEnd/routes/createServer.js');
 const createChannel = require('./DiscordCode/BackEnd/routes/createChannel.js');
 const fetchUserServers = require('./DiscordCode/BackEnd/routes/fetchUserServers.js');
-const searchResults = require('./DiscordCode/BackEnd/routes/searchResults.js');
+const findServers = require('./DiscordCode/BackEnd/routes/findServers.js');
 const fetchUserData = require('./DiscordCode/BackEnd/routes/fetchUserData.js');
 const updateUsername = require('./DiscordCode/BackEnd/routes/updateUsername.js');
 const updateEmail = require('./DiscordCode/BackEnd/routes/updateEmail.js');
@@ -114,6 +119,7 @@ const fetchIncomingRequests = require('./DiscordCode/BackEnd/routes/fetchIncomin
 const fetchOutgoingRequests = require('./DiscordCode/BackEnd/routes/fetchOutgoingRequests.js');
 const getUser = require('./DiscordCode/BackEnd/routes/getUser.js');
 const acceptRequest = require('./DiscordCode/BackEnd/routes/acceptRequest.js');
+const joinServer = require('./DiscordCode/BackEnd/routes/joinServer.js');
 
 
 app.use('/createServer', createServer);
@@ -124,7 +130,7 @@ app.use('/signup', signup);
 app.use('/login', login);
 app.use('/serverpage', ServerPage);
 app.use('/fetchUserServers', fetchUserServers);
-app.use('/searchResults', searchResults);
+app.use('/findServers', findServers);
 app.use('/fetchUserData', fetchUserData);
 app.use('/updateUsername', updateUsername);
 app.use('/updateEmail', updateEmail);
@@ -137,6 +143,10 @@ app.use('/fetchIncomingRequests', fetchIncomingRequests);
 app.use('/fetchOutgoingRequests', fetchOutgoingRequests);
 app.use('/getUser', getUser);
 
+app.use('/joinServer', joinServer);
+
+
+
 io.use(sharedSession(sessionMiddleware));
 
 io.on ('connection', (socket) => {
@@ -145,7 +155,7 @@ io.on ('connection', (socket) => {
         console.log('message: ' + message);
         socket.broadcast.emit('receive-message', message);
         ServerData.findOneAndUpdate(
-          { _id: serverId, 'channels.name': channelName },
+          { sid: serverId, 'channels.name': channelName },
           { $push: { 'channels.$.messages': message } },
           { new: true }
       ).then(updatedServer => {
@@ -158,7 +168,7 @@ io.on ('connection', (socket) => {
     });
     socket.on('channelSelected', ({ serverId, channelName }) => {
       ServerData.findOne({ 
-          '_id': serverId, 
+          'sid': serverId, 
           'channels.name': channelName 
       }, 'channels.$')
       .then(server => {
@@ -166,35 +176,45 @@ io.on ('connection', (socket) => {
           socket.emit('channelMessages', messages); 
       }).catch(err => console.log(err));
   });
-  const userEmail = socket.handshake.session.email;
-  if (!userEmail) {
-      console.log('User email not found in session.');
-      return;
-  } 
-   console.log(`${userEmail} connected for video calling.`); 
-   socket.on('initiate-call', ({ calleeEmail }) => {
-      const calleeSocketId = Object.keys(io.sockets.sockets).find(key => io.sockets.sockets[key].handshake.session.email === calleeEmail);
-      if (calleeSocketId) {
-          io.to(calleeSocketId).emit('incoming-call', { from: userEmail });
-          console.log(`Call initiated from ${userEmail} to ${calleeEmail}`);
-      } else {
-          socket.emit('call-error', `User ${calleeEmail} is not online.`);
-      }
-  }); 
   socket.on('send-message2', (message , name) => {
     socket.broadcast.emit('receive-message2', message );
-});
-  socket.on('join-room', (roomID, userID) => {
-    console.log(`User ${userID} joined room ${roomID}`);
-    socket.join(roomID);
-    socket.to(roomID).emit('user-connected', userID);
+  });
+  const username = socket.handshake.session.name;
+  if (!username) {
+    console.log('Username not found in session.');
+    return;
+  }
+
+    socket.on('create-room', (data) => {
+        socket.join(data.room);
+        console.log(`${socket.id} created and joined room: ${data.room}`);
+        io.to(data.room).emit('room-joined', { room: data.room, id: socket.id });
+    });
+
+    socket.on('join-room', (data) => {
+        socket.join(data.room);
+        console.log(`${socket.id} joined room: ${data.room}`);
+        socket.to(data.room).emit('room-joined', { room: data.room, id: socket.id });
+    });
+
+    socket.on('offer', (data) => {
+        console.log('Offer received:', data);
+        io.to(data.room).emit('offer', data);
+    });
+
+    socket.on('answer', (data) => {
+        console.log('Answer received:', data);
+        io.to(data.room).emit('answer', data);
+    });
+
+    socket.on('candidate', (data) => {
+        console.log('Candidate received:', data);
+        io.to(data.room).emit('candidate', data);
+    });
 
     socket.on('disconnect', () => {
-      console.log(`User ${userID} disconnected from room ${roomID}`);
-        socket.to(roomID).emit('user-disconnected', userID);
+        console.log('user disconnected');
     });
-  });
-
 });
 server.listen(port, () => {
   console.log(`listening on *:${port}`);

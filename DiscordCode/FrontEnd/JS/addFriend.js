@@ -61,10 +61,11 @@ async function displayOutgoingRequests(endpoint, containerId, uid) {
 function createRequestElement(request, uid) {
     const requestModule = document.createElement('div');
     requestModule.classList.add('friend_request_module');
-    const usernameHeader = document.createElement('h4');
-    usernameHeader.textContent = `${request.sendname}`;
-    requestModule.appendChild(usernameHeader);
+    
     if (request.recid == uid) {
+        const usernameHeader = document.createElement('h4');
+        usernameHeader.textContent = `${request.sendname}`;
+        requestModule.appendChild(usernameHeader);
         const acceptButton = document.createElement('button');
         acceptButton.classList.add('btn', 'btn-primary');
         acceptButton.textContent = 'Accept';
@@ -77,6 +78,9 @@ function createRequestElement(request, uid) {
         declineButton.addEventListener('click', async () => await handleDeclineRequest(request.recid, request.sendid));
         requestModule.appendChild(declineButton);
     } else {
+        const usernameHeader = document.createElement('h4');
+        usernameHeader.textContent = `${request.recname}`;
+        requestModule.appendChild(usernameHeader);
         const removeButton = document.createElement('button');
         removeButton.classList.add('btn', 'btn-remove');
         removeButton.textContent = 'Remove';
@@ -88,6 +92,9 @@ function createRequestElement(request, uid) {
 }
 
 async function handleAcceptRequest(recid, sendid) {
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
     console.log(`Accepting request: recid=${recid}, sendid=${sendid}`);
     try {
         const response = await fetch('/acceptRequest', {
@@ -108,6 +115,9 @@ async function handleAcceptRequest(recid, sendid) {
 }
 
 async function handleDeclineRequest(recid, sendid) {
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
     console.log(`Declining request: recid=${recid}, sendid=${sendid}`);
     try {
         const response = await fetch('/cancelRequest', {
@@ -128,6 +138,9 @@ async function handleDeclineRequest(recid, sendid) {
 }
 
 async function handleRemoveRequest(recid, sendid) {
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
     console.log(`Removing request: recid=${recid}, sendid=${sendid}`);
     try {
         const response = await fetch('/cancelRequest', {

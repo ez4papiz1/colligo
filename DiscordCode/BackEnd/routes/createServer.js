@@ -3,15 +3,16 @@ const mongoose = require('mongoose');
 const ServerData = require('./Models/ServerData');
 const User = require('./Models/Usermodel');
 
-mongoose.createConnection("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo" , { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.createConnection("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo", { useNewUrlParser: true, useUnifiedTopology: true });
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     if (!req.session.name) {
         res.redirect('/login');
     }
     const username = req.session.name;
+
     req.session.save();
     res.writeHead(200, {'Content-Type': 'text/html'}); 
     res.write('<!DOCTYPE html>');
@@ -41,5 +42,10 @@ router.get('/', (req, res) => {
     
 
     res.end();
+
+
+   
+
 });
-module.exports = router; 
+
+module.exports = router;

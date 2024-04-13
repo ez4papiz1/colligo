@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Settings</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/AdminSettings.css">
+    <script src="JS/adminSettings.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mb-3">Admin Settings</h2>
+        <form id="changeServerNameForm">
+            <div class="form-group">
+                <label for="newServerName">New Server Name:</label>
+                <input type="text" class="form-control" id="newServerName" placeholder="Enter new server name" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Change Server Name</button>
+        </form>
+
+        <form id="addAdminForm">
+            <div class="form-group">
+                <label for="adminUsername">Username of new admin:</label>
+                <input type="text" class="form-control" id="adminUsername" placeholder="Enter username" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Admin</button>
+        </form>
+
+        <form id="deleteMemberForm" method="POST">
+            <div class="form-group">
+                <label for="memberUsername">Member Username:</label>
+                <input type="text" class="form-control" id="memberUsername" name="memberUsername" required>
+            </div>
+            <button type="submit" class="btn btn-danger">Delete Member</button>
+        </form>        
+    </div>
+</body>
+</html>

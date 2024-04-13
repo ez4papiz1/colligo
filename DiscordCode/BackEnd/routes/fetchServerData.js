@@ -9,7 +9,7 @@ mongoose.connect("mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retr
 const router = express.Router();
 router.get('/:serverId', (req, res) => {
     const serverId = req.params.serverId;
-    Server.findById(serverId).then (result => {
+    Server.findOne({sid: serverId}).then (result => {
         User.find({ _id: result.members } ).then(users => {
             const memberNames = users.map(user => user.name);
             const modifiedResult = {
