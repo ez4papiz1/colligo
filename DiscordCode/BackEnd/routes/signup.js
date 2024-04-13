@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoStore = require('connect-mongodb-session')(session);
 const Usermodel = require('./Models/Usermodel');
 const bodyParser = require('body-parser');
 
-mongoose.createConnection('mongodb+srv://Jordan:test123@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo');
+mongoose.createConnection('mongodb+srv://artem:testpass@colligo.jfv09qu.mongodb.net/?retryWrites=true&w=majority&appName=Colligo');
 
 
 const router = express.Router();
@@ -21,7 +22,7 @@ router.use(session({
 function generateUid() {
     return Math.floor(100000 + Math.random() * 900000);
 }
-router.post('/', async (req, res, next) => {    
+router.post('/', async (req, res, next) => {
     try {
         let uid;
         let existingUser;

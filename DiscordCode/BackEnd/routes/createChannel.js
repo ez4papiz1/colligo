@@ -20,6 +20,7 @@ router.get('/', (req, res) => {
     res.write('<a href="/displayServer">Return to server page to see new channel</a>'); 
     res.write('</body>');
     res.write('</html>');
+    
     ServerData.find({name: req.query.serverName}).then((result) => {
         if (result.length > 0) {
             const server = result[0];

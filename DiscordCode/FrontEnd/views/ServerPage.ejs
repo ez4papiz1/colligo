@@ -28,20 +28,20 @@
                     </div>
                 </div>
                 <button id="userProfileButton" class="btn btn-primary mb-2"><%= username %></button> <!-- Added user profile button -->
+                <div id="adminSettingsButtons"></div>
             </div>
             <div id="channelList" class="col-2 p-0">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">General</li> <!-- PlaceHolders Awaiting Backend Creation-->
                     <li class="list-group-item">Help</li>
                 </ul>
-
                 <button id="joinVoiceChannelButton" class="btn btn-primary mb-2">Join Voice Channel</button> 
                 <button id="createChannelButton" class="btn btn-primary mb-2">Create Channel</button>
                 <div id="createChannelModal" class="modal">
                     <div class="modal-content">
                         <span class="close">&times;</span>
                         <form id="createChannelForm" method="GET" action = "/createChannel">
-                            <input type="text" name="serverName" class="form-control mb-2" id="serverNameInput" placeholder="Server Name">
+                            <input type="text" name="serverName" class="form-control mb-2" id="serverNameInput1" placeholder="Server Name">
                             <input type="text" name="channelName" class="form-control mb-2" id="channelNameInput" placeholder="Channel Name">
                             <button type="submit" class="btn btn-primary mb-2">Create</button>
                         </form>
@@ -67,6 +67,5 @@
             </div>
         </div>
     </div>
-    
 </body>
 </html>

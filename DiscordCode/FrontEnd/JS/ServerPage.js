@@ -1,14 +1,15 @@
 
 document.addEventListener('DOMContentLoaded', function() {
         fetchServersAndGenerateButtons();
+        let sid;
         var username = document.getElementById('userProfileButton').textContent;
         var modal = document.getElementById('createServerModal');
         var btn = document.getElementById('createServerButton');
-        var span = document.getElementsByClassName("close")[0];
+        var spanServer = document.getElementsByClassName("close")[0];
         btn.onclick = function() {
             modal.style.display = "block";
         }
-        span.onclick = function() {
+        spanServer.onclick = function() {
             modal.style.display = "none";
         }
         window.onclick = function(event) {
@@ -16,20 +17,60 @@ document.addEventListener('DOMContentLoaded', function() {
                 modal.style.display = "none";
             }
         }
+        const createServerForm = document.getElementById('createServerForm');
+        createServerForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+            const serverName = document.getElementById('serverNameInput').value;  
+            fetch(`/createServer?serverName=${serverName}`).then(response => {
+                if (response.ok) {
+                    console.log("Server created")
+                } else {
+                    console.log("Server not created")
+                }
+                })
+                .catch(error => {
+                    console.error('Error creating server:', error);
+                });
+        });
+
+        const createChannelForm = document.getElementById('createChannelForm');
+        createChannelForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            event.preventDefault();
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+            const serverName = document.getElementById('serverNameInput1').value;
+            const channelName = document.getElementById('channelNameInput').value;
+            fetch(`/createChannel?serverName=${serverName}&channelName=${channelName}`).then(response => {
+                if (response.ok) {
+                    console.log("Channel created")
+                } else {
+                    console.log("Channel not created")
+                }
+                })
+                .catch(error => {
+                    console.error('Error creating channel:', error);
+                });
+        });
+        
         var chanmodal = document.getElementById('createChannelModal');
         var chanbtn = document.getElementById('createChannelButton');
-        var span = document.getElementsByClassName("close")[0];
+        var chanspan = document.getElementsByClassName("close")[1];
         chanbtn.onclick = function() {
             chanmodal.style.display = "block";
-        }
-        span.onclick = function() {
+        };
+        chanspan.onclick = function() {
             chanmodal.style.display = "none";
-        }
+        };
         window.onclick = function(event) {
             if (event.target == chanmodal) {
                 chanmodal.style.display = "none";
             }
-        } 
+        };
         const userProfileButton = document.getElementById('userProfileButton');
         userProfileButton.addEventListener('click', function() {
             window.location.href = '/AccountSettings';
@@ -55,14 +96,26 @@ document.addEventListener('DOMContentLoaded', function() {
                     servers.forEach(server => {
                         const listItem = document.createElement('li');
                         listItem.className = 'list-group-item py-2';
-                        listItem.textContent = server.name; 
+                        listItem.textContent = server.name;
                         listItem.onclick = () => {
-                            selectServer(server._id); 
+                            selectServer(server.sid); 
                         };
+                        const isAdmin = server.admins.includes(username);
+                        if (isAdmin) {
+                            console.log("admin")
+                            const adminSettingsButton = document.createElement('button');
+                            adminSettingsButton.textContent = 'Admin Settings';
+                            adminSettingsButton.onclick = () => {
+                            window.location.href = `/adminSettings?serverId=${server.sid}`;
+                        };
+                        listItem.appendChild(adminSettingsButton);
+                    } else {
+                        console.log("not an admin")
+                    }
                         serverList.appendChild(listItem); 
-                    });
+                        });
                 })
-                .catch(error => console.error('Failed to load servers:', error));
+                        .catch(error => console.error('Failed to load servers:', error));
         }
         function clearMessages() {
             const messageDisplayArea = document.getElementById('messageDisplayArea');
@@ -76,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentServer = serverId; 
             currentChannel = ''; 
             clearMessages();
+            sid = serverId;
             fetchData(serverId);
         }
         function fetchData(serverId) {
@@ -96,14 +150,15 @@ document.addEventListener('DOMContentLoaded', function() {
         var socket = io();
         const joinVoiceChannelButton = document.getElementById('joinVoiceChannelButton');
         joinVoiceChannelButton.addEventListener('click', () => {
-            socket.emit('join-voice-channel', { serverId: serverId});
-            window.location.href = `/voice-call?serverId=${serverId}`;
+            socket.emit('join-voice-channel', { serverId: sid});
+            window.location.href = `/voice-call?serverId=${sid}`;
         });
+
         socket.on('connection', function() {
             console.log('Connected to server');
         });
         socket.on('receive-message', (message) => {
-            displayMessage(message, 'OtherUser');
+            displayMessage(message, 'artem');
         });
         const messageForm = document.getElementById('messageForm');
         const messageInput = document.getElementById('messageInput');
@@ -123,6 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
             messageElement.innerHTML = `<strong>${user}</strong>: ${message}`;
             messageList.appendChild(messageElement);
         }
+
         function displayChannels(channels) {
             const channelList = document.querySelector('#channelList .list-group');
             channelList.innerHTML = '';
@@ -135,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentChannel = this.getAttribute('data-channel-name');
                     clearMessages();
                     console.log('Selected channel:', currentChannel);
-                    socket.emit('channelSelected', { serverId: currentServer, channelName: currentChannel });
+                    socket.emit('channelSelected', { serverId: sid, channelName: currentChannel });
                 });
                 channelList.appendChild(li);
             }
@@ -148,6 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             socket.emit('send-message', { message: messageInput.value, channelName: currentChannel, serverId: currentServer });
             displayMessage(messageInput.value, username);
+            messageInput.value = '';
         });
         function displayMembers(members) {
             const userList = document.getElementById('userList');
@@ -156,8 +213,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 const li = document.createElement('li');
                 li.className = 'list-group-item';
                 li.textContent = members[i];
+                const hoverBox = document.createElement('div');
+                hoverBox.className = 'hover-box';
+                const checkBox = document.createElement('input');
+                checkBox.type = 'checkbox';
+                checkBox.id = 'admin' + i; 
+                checkBox.className = 'admin-checkbox';
+                const label = document.createElement('label');
+                label.htmlFor = 'admin' + i;
+                label.textContent = 'Admin';
+                hoverBox.appendChild(checkBox);
+                hoverBox.appendChild(label);
+                li.appendChild(hoverBox);
                 userList.appendChild(li);
             }
         }
+        
     });
 

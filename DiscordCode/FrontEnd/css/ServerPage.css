@@ -1,7 +1,13 @@
 body, html {
     height: 100%;
     margin: 0;
+
     background: linear-gradient(to bottom right, #7785cc, #d3dce8); /* Gradient background */
+
+    background-color: #7785cc;
+    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 
 #serverList {
@@ -179,10 +185,11 @@ body, html {
 }
 #FriendsButton {
     position: absolute;
-    bottom: 170px; 
+    bottom: 190px; 
     left: 0;
     width: 100%;
 }
+
 .video-call-button {
     display: inline-block;
     padding: 10px 20px;
@@ -202,3 +209,23 @@ body, html {
   .video-call-button:active {
     background-color: #3449c4; 
   }
+
+#userList .list-group-item {
+    position: relative;
+    padding: 10px;
+    margin-top: 5px;
+}
+.hover-box {
+    color: #181818;
+    right: 10px;
+    top: 10px;
+    display: none;
+    background-color: #7785cc;
+    padding: 8px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+.list-group-item:hover .hover-box {
+    display: block;
+}
+
