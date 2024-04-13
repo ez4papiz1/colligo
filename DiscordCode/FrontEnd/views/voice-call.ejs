@@ -37,6 +37,9 @@
         text-align: center;
         margin-top: 20px;
     }
+    p{
+        text-align: center;
+    }
     </style>
 </head>
 <body>
@@ -57,6 +60,11 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('leaveCallButton').addEventListener('click', () => {
+            window.location.href = '/serverPage';
+        });
+    });
     const userId = document.getElementById('userId').value;
     console.log(userId);
     const serverId = document.getElementById('serverId').value;
@@ -74,32 +82,24 @@
             peer.on('open', id => {
                 socket.emit('join-room', serverId, userId);
             });
-
-            // Receiving a call
             peer.on('call', call => {
-                call.answer(stream); // Answer the call with an A/V stream.
+                call.answer(stream); 
                 call.on('stream', userAudioStream => {
-                    // Play the audio stream
                     const audio = document.createElement('audio');
                     audio.srcObject = userAudioStream;
                     audio.play();
                 });
             });
-
-            // When a new user connects
             socket.on('user-connected', userID => {
                 const call = peer.call(userID, stream);
                 call.on('stream', userAudioStream => {
-                    // Play the audio stream
                     const audio = document.createElement('audio');
                     audio.srcObject = userAudioStream;
                     audio.play();
                 });
             });
-
             socket.on('user-disconnected', userID => {
                 console.log(userID + ' disconnected');
-                // Handle user disconnection
             });
         }).catch(err => {
             console.error('Failed to get local stream', err);

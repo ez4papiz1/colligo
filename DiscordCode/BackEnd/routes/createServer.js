@@ -26,21 +26,19 @@ router.get('/', (req, res) => {
     res.write('<a href="/displayServer">Return to server page to see new server</a>'); 
     res.write('</body>');
     res.write('</html>');
-   
-    ServerData.create({
-        sid: Math.floor(Math.random() * 100),
-        name: req.query.serverName,
-        members: ['660b196ff1e5954cd22ea261'],  
-        channels: [{name: 'General', messages: ['Hello']}],
+
+    User.findOne({ name: username }).then(user => {
+        ServerData.create({
+            sid: Math.floor(Math.random() * 100),
+            name: req.query.serverName,
+            members: [user._id],  
+            channels: [{name: 'General', messages: ['Hello']}],
+        }).then(server => {
+            user.servers.push(server._id);
+            return user.save(); 
+        });
     });
     
-    ServerData.findOne({ name: req.query.serverName }).then(server =>
-        User.findOne({ name: username }).then(user => {
-            console.log(server.name)
-            user.servers.push(server._id);
-            user.save();
-        })
-    );
 
     res.end();
 });
