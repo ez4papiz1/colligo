@@ -13,8 +13,7 @@ describe('POST /login', () => {
             .post('/login')
             .send({
                 name: 'enesh',
-                email: 'eneshj@gmail.com',
-                password: 'pass3'
+                email: 'enesh@example.com',
             });
         
         expect(response.statusCode).toBe(200);
