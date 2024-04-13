@@ -19,7 +19,7 @@
                 <div class="friend_list_module">
                     <img src="../images/logo.png" alt="avatar"> <!-- Consider dynamic avatars if available -->
                     <h4><%= friend.name %></h4> <!-- Displaying friend's name -->
-                    <button onclick="initiateCall('<%= JSON.stringify(friend)%>')">Call</button>
+                    <button onclick="initiateCall('<%= JSON.stringify(friend)%>')">Call friend</button> //week 14 branch
                 </div>
             <% }) %>
         <% } else { %>
@@ -31,7 +31,7 @@
     <video id="remoteVideo" autoplay></video>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="JS/chat.js"></script>
+    <script src="JS/chat.js"></script> //week 14 branch
     <script>
         function selection(){
             clearMessages();
