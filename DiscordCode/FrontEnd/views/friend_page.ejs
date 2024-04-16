@@ -18,6 +18,7 @@
                     <img src="../images/logo.png" alt="avatar">
                     <h4><%= friend%></h4>
                     <button onclick="initiateCall('<%= JSON.stringify(friend)%>')">Call</button>
+
                 </div>
             <% }) %>
         <% } else { %>
@@ -46,7 +47,7 @@
     <video id="remoteVideo" autoplay></video>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="JS/chat.js"></script>
+    <script src="JS/chat.js"></script> //week 14 branch
     <script>
         function clearMessages(){
             document.getElementById('messageDisplayArea').innerHTML = ''; 

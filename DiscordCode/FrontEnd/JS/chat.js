@@ -1,3 +1,4 @@
+//week 14 branch
 const socket = io();
 const localVideo = document.getElementById('localVideo');
 const remoteVideo = document.getElementById('remoteVideo');
@@ -78,6 +79,6 @@ function setupPeerConnection(data) {
 
 // Handle button click event to initiate call
 document.getElementById('callButton').addEventListener('click', () => {
-    const friendUid = req.friend.uid; // Replace with the actual friend UID
+    const friendUid = req.friend.uid; 
     initiateCall(friendUid);
 });
