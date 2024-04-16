@@ -1,0 +1,20 @@
+body {
+    background-color: #7785cc;
+}
+
+.container {
+    margin-top: 2em;
+}
+
+form {
+    margin-top: 1em;
+}
+
+.container ::placeholder {
+    color: white;
+}
+
+.container input[type="text"] {
+    color: white;
+    background-color: #424549;
+}

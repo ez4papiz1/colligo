@@ -67,3 +67,43 @@
     right: 0;
     
 }
+#messageForm input[type="text"],
+#messageForm button {
+    background: linear-gradient(to bottom, #32363a, #424549); /* Gradient background */
+    color: #f2f2f2;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#messageForm input[type="text"] {
+    background-color: #424549;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#messageForm button {
+    background-color: #424549;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#messageForm{
+    width: calc(100% - 300px);
+}
+
+.mt-3{
+    width: 20%;
+    position: fixed;
+    bottom: 0;
+    left: 20%;
+    padding: 10px;
+}
+.message{
+    overflow-wrap: break-word;
+    background-color: #646faa;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin: 10px;
+    padding-left: 10px;
+}

@@ -12,7 +12,6 @@ router.get('/', async (req, res) => {
         res.redirect('/login');
     }
     const username = req.session.name;
-
     req.session.save();
     res.writeHead(200, {'Content-Type': 'text/html'}); 
     res.write('<!DOCTYPE html>');
@@ -33,6 +32,7 @@ router.get('/', async (req, res) => {
             sid: Math.floor(Math.random() * 100),
             name: req.query.serverName,
             members: [user._id],  
+            admins: [user.name],
             channels: [{name: 'General', messages: ['Hello']}],
         }).then(server => {
             user.servers.push(server._id);

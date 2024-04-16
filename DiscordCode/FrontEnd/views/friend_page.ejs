@@ -10,21 +10,37 @@
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
     <div class="friend_list">
-
-        <h2><%= user.name %>'s Friends</h2>
+        <h2><%= user.name %> Friends</h2>
         <% if (user.friendlist && user.friendlist.length > 0) { %>
             <% user.friendlist.forEach(function(friend) { %>
-                <div class="friend_list_module">
-                    <img src="../images/logo.png" alt="avatar"> <!-- Consider dynamic avatars if available -->
-                    <h4><%= friend.name %></h4> <!-- Displaying friend's name -->
-                    <button onclick="initiateCall('<%= JSON.stringify(friend)%>')">Call friend</button> //week 14 branch
+                <div class="friend_list_module" onmouseover="hoverFunction()">
+                    <img src="../images/logo.png" alt="avatar">
+                    <h4><%= friend%></h4>
+                    <button onclick="initiateCall('<%= JSON.stringify(friend)%>')">Call</button>
+
                 </div>
             <% }) %>
         <% } else { %>
             <p>You have no friends added.</p>
         <% } %>
+
+    </div>
+    <div class="friend_list_footer">
+        <img src="../images/logo.png" alt="avatar">
+        <h3><%= user.name %> </h3>
+        <a href="/addFriend"><button class="btn btn-primary">Add Friend</button></a>
+    </div>
+    <div id="messageDisplayContainer" class="col-7 p-0">
+        <div id="messageDisplayArea" class="col-12 p-3">
+            <p class = "channel-title"></p> 
+        </div>
+        <div class="mt-3 col-12">
+            <form id="messageForm" class="d-flex justify-content-between">
+                <input type="text" class="form-control me-2" id="messageInput" placeholder="Type a message..." style="flex-grow: 1;">
+                <button type="submit" class="btn btn-primary mb-2">Send</button>
+            </form>
+        </div>
     </div>
 
     <video id="localVideo" autoplay muted ></video>
@@ -33,9 +49,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="JS/chat.js"></script> //week 14 branch
     <script>
-        function selection(){
-            clearMessages();
-        }
         function clearMessages(){
             document.getElementById('messageDisplayArea').innerHTML = ''; 
         }

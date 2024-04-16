@@ -17,46 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 modal.style.display = "none";
             }
         }
-        const createServerForm = document.getElementById('createServerForm');
-        createServerForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-            const serverName = document.getElementById('serverNameInput').value;  
-            fetch(`/createServer?serverName=${serverName}`).then(response => {
-                if (response.ok) {
-                    console.log("Server created")
-                } else {
-                    console.log("Server not created")
-                }
-                })
-                .catch(error => {
-                    console.error('Error creating server:', error);
-                });
-        });
-
-        const createChannelForm = document.getElementById('createChannelForm');
-        createChannelForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            event.preventDefault();
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-            const serverName = document.getElementById('serverNameInput1').value;
-            const channelName = document.getElementById('channelNameInput').value;
-            fetch(`/createChannel?serverName=${serverName}&channelName=${channelName}`).then(response => {
-                if (response.ok) {
-                    console.log("Channel created")
-                } else {
-                    console.log("Channel not created")
-                }
-                })
-                .catch(error => {
-                    console.error('Error creating channel:', error);
-                });
-        });
-        
         var chanmodal = document.getElementById('createChannelModal');
         var chanbtn = document.getElementById('createChannelButton');
         var chanspan = document.getElementsByClassName("close")[1];
@@ -104,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (isAdmin) {
                             console.log("admin")
                             const adminSettingsButton = document.createElement('button');
+                            adminSettingsButton.className = 'admin btn btn-primary';
                             adminSettingsButton.textContent = 'Admin Settings';
                             adminSettingsButton.onclick = () => {
                             window.location.href = `/adminSettings?serverId=${server.sid}`;
@@ -150,8 +111,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var socket = io();
         const joinVoiceChannelButton = document.getElementById('joinVoiceChannelButton');
         joinVoiceChannelButton.addEventListener('click', () => {
-            socket.emit('join-voice-channel', { serverId: sid});
-            window.location.href = `/voice-call?serverId=${sid}`;
+            socket.emit('join-voice-channel', { serverId: currentServer});
+            window.location.href = `/voice-call/${currentServer}`;
         });
 
         socket.on('connection', function() {
@@ -213,18 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const li = document.createElement('li');
                 li.className = 'list-group-item';
                 li.textContent = members[i];
-                const hoverBox = document.createElement('div');
-                hoverBox.className = 'hover-box';
-                const checkBox = document.createElement('input');
-                checkBox.type = 'checkbox';
-                checkBox.id = 'admin' + i; 
-                checkBox.className = 'admin-checkbox';
-                const label = document.createElement('label');
-                label.htmlFor = 'admin' + i;
-                label.textContent = 'Admin';
-                hoverBox.appendChild(checkBox);
-                hoverBox.appendChild(label);
-                li.appendChild(hoverBox);
                 userList.appendChild(li);
             }
         }

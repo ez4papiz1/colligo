@@ -72,7 +72,9 @@ app.get('/voice-call/:serverId', (req, res) => {
   res.render('voice-call', { serverId, username });
 
 });
-
+app.get('/adminSettings', (req, res) => {
+  res.render('adminSettings');
+});
 app.get('/searchServer', (req, res) => {
   res.render('SearchPage');
 });
@@ -92,6 +94,7 @@ app.get('/changeUsername', (req, res) => {
   res.render('change_username');
 });
 app.get('/addFriend', (req, res) => {
+  
   res.render('addFriend');
 });
 app.get('/searchResults', (req, res) => {
@@ -122,6 +125,8 @@ const acceptRequest = require('./DiscordCode/BackEnd/routes/acceptRequest.js');
 const joinServer = require('./DiscordCode/BackEnd/routes/joinServer.js');
 
 
+
+
 app.use('/createServer', createServer);
 app.use('/createChannel', createChannel);
 app.use('/fetchServerData', fetchServerData);
@@ -145,10 +150,7 @@ app.use('/getUser', getUser);
 
 app.use('/joinServer', joinServer);
 
-
-
 io.use(sharedSession(sessionMiddleware));
-
 io.on ('connection', (socket) => {
     console.log('a user connected');
     socket.on('send-message', ({ message, channelName, serverId}) => {
