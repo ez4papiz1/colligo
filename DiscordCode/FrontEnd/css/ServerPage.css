@@ -43,28 +43,49 @@ body, html {
 }
 
 .list-group-item:hover {
-    background-color: #4f545c;
+    background-color: #3b6cac;
 }
 
 #messageForm input[type="text"],
 #messageForm button {
+    
     background: linear-gradient(to bottom, #32363a, #424549); /* Gradient background */
     color: #f2f2f2;
     border-top: lightgray 1px solid;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
-.message {
+#messageForm input[type="text"] {
+    background-color: #424549;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#messageForm button {
+    background-color: #424549;
+    color: white;
+    border-top: lightgray 1px solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+#messageForm{
+    width: calc(100% - 90px);
+}
+.mt-3{
+    width: 68%;
+    position: fixed;
+    bottom: 0;
+    left: 25%;
+    padding: 10px;
+}
+.message{
     overflow-wrap: break-word;
-    background: linear-gradient(to bottom right, #646faa, #4f5a70); /* Gradient background */
-    color: #f2f2f2;
+    background-color: #646faa;
+    color: white;
     border-top: lightgray 1px solid;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     margin: 10px;
     padding-left: 10px;
 }
-
 .modal {
     display: none; 
     position: fixed; 
@@ -189,26 +210,12 @@ body, html {
     left: 0;
     width: 100%;
 }
-
-.video-call-button {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 10px;
-    background-color:#2840c5;
+.admin {
+    background-color: #424549;
     color: white;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .video-call-button:hover {
-    background-color: #3449c4;
-  }
-  
-  .video-call-button:active {
-    background-color: #3449c4; 
-  }
+    border-style: solid;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
 #userList .list-group-item {
     position: relative;

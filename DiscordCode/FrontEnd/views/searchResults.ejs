@@ -14,10 +14,34 @@
             <% servers.forEach(function(server) { %>
                 <li class="list-group-item">
                     <%= server.name %>
-                    <button class="btn btn-join">Join</button>
+                    <button class="btn btn-join" onclick="joinServer('<%= server.sid %>')">Join</button>
                 </li>
             <% }); %>
         </ul>
     </div>
 </body>
+<script>
+    async function joinServer(serverId) {
+        setTimeout(() => {
+            window.location.href = '/ServerPage';
+        }, 1000);
+        try {
+            const response = await fetch(`/joinServer`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ serverId })
+            });
+
+            if (response.ok) {
+                console.log('Successfully joined the server');
+            } else {
+                console.error('Failed to join the server');
+            }
+        } catch (error) {
+            console.error('Error joining server:', error);
+        }
+    }
+</script>
 </html>

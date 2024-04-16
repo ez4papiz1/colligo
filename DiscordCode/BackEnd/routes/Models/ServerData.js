@@ -12,6 +12,9 @@ const ServerDataSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
+    admins: [{
+        type: String,
+    }],
     channels: [{
         name: String,
         messages: [String]
